@@ -2,3 +2,7 @@
 *
 !Data
 !Data/AnomaliesOfTheCommonwealth.esp
+
+!Data/Meshes
+!Data/Meshes/aotc
+!Data/Meshes/aotc/**/*
