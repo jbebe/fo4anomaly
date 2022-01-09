@@ -1,4 +1,4 @@
-Scriptname aotc_actor_script_anomaly Extends Actor Const
+Scriptname aotc_actor_script_anomaly_behavior Extends Actor Const
 
 ; Inputs
 ImageSpaceModifier Property PlayerImod Auto Const
@@ -27,10 +27,13 @@ EndEvent
 Event OnTimer(int timerId)
     Actor player = Game.GetPlayer()
 	float distance = player.GetDistance(self)
-    float normalizedDistance = distance / triggerDistance
+    float normalizedDistance = Math.abs(distance / triggerDistance)
+    if normalizedDistance > 1
+        normalizedDistance = 1
+    endif
     float effectStrength = 1.0 - normalizedDistance
     PlayerImod.PopTo(PlayerImod, effectStrength)
-    Debug.Trace("[aotc] Distance: " + distance + ", effect strength: " + effectStrength)
+    ;Debug.Trace("[aotc] Distance: " + distance + ", effect strength: " + effectStrength)
 
     If effectStrength > 0.4
         ; if player jumps over the anomaly, let him go with damage
@@ -68,7 +71,7 @@ Event OnTimer(int timerId)
     Endif
 
     StartTimer(TimerIntervalSec, ActionTimerId)
-endEvent
+EndEvent
 
 Event OnDistanceLessThan(ObjectReference _player, ObjectReference _self, float afDistance)
     StartTimer(TimerIntervalSec, ActionTimerId)
