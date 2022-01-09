@@ -41,16 +41,19 @@ Event OnTimer(int timerId)
             InputEnableLayer myLayer = InputEnableLayer.Create()
             myLayer.DisablePlayerControls()
 
-            float destinationX = self.GetPositionX()
-            float destinationY = self.GetPositionY()
-            float destinationZ = self.GetPositionZ() + 60
-            float gravitySpeed = 60.0
-            float rotationalSpeed = 10.0
-            ; TODO: shake and spiral player into the center
-            player.TranslateTo(destinationX, destinationY, destinationZ, 0, 0, 0, gravitySpeed, rotationalSpeed)
-
-            ;player.MoveTo(self, 0, 0, 100)
-            Utility.Wait(2.1)
+            int i = 0
+            float rockingMagnitude = 50
+            float tangentMagnitude = 100
+            while (i < 3)
+                CustomSplineTo(rockingMagnitude, 0, tangentMagnitude)
+                Utility.Wait(0.3)
+                CustomSplineTo(-rockingMagnitude, 0, -tangentMagnitude)
+                Utility.Wait(0.3)
+                rockingMagnitude = rockingMagnitude / 2
+                i += 1
+            endwhile
+            
+            CustomSplineTo(0, 0, tangentMagnitude)
             self.PlaceAtMe(AttackExplosion)
             self.PlaceAtMe(Reaction)
             player.Kill(self)
@@ -76,3 +79,16 @@ Event OnDistanceGreaterThan(ObjectReference _player, ObjectReference _self, floa
     PlayerImod.Remove()
     Debug.Trace("[aotc] Distance over " + TriggerDistance)
 EndEvent
+
+Function CustomSplineTo(float offsetX, float offsetY, float magnitude)
+    Actor player = Game.GetPlayer()
+    float destinationX = self.GetPositionX()
+    float destinationY = self.GetPositionY()
+    float destinationZ = self.GetPositionZ() + 60
+    float forceSpeed = 300.0
+    float rotationalSpeed = 30.0
+
+    ; player.MoveTo(self, 0, 0, 100)
+    ; player.TranslateTo(destinationX, destinationY, destinationZ, 0, 90, 0, gravitySpeed, rotationalSpeed)
+    player.SplineTranslateTo(destinationX + offsetX, destinationY + offsetY, destinationZ, 0, 90, 0, magnitude, forceSpeed, rotationalSpeed)
+EndFunction
