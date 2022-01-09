@@ -4,7 +4,7 @@ Scriptname aotc_actor_script_anomaly Extends Actor Const
 ImageSpaceModifier Property PlayerImod Auto Const
 Explosion Property AttackExplosion Auto Const
 Explosion Property Reaction Auto Const
-Sound Property AttackSound Auto Const
+Sound Property PreAttackSound Auto Const
 
 ; Vars
 float TimerIntervalSec = 0.1 Const
@@ -15,7 +15,7 @@ Event OnLoad()
     Debug.Trace("[aotc] Anomaly loaded")
     RegisterForDistanceLessThanEvent(Game.GetPlayer(), self, TriggerDistance)
     RegisterForDistanceGreaterThanEvent(Game.GetPlayer(), self, TriggerDistance)
-    ; TODO: always face towards player, by updating its position every second
+    ; TODO: always face towards player, create new script so we dont clutter this file
 EndEvent
 
 Event OnUnload()
@@ -32,24 +32,25 @@ Event OnTimer(int timerId)
     PlayerImod.PopTo(PlayerImod, effectStrength)
     Debug.Trace("[aotc] Distance: " + distance + ", effect strength: " + effectStrength)
 
-    If effectStrength > 0.5
+    If effectStrength > 0.4
         ; if player jumps over the anomaly, let him go with damage
         ; but if player was walking, kill him
         If true ; Needs condition for player is airborne
             Debug.Trace("[aotc] Kill explosion")
+            PreAttackSound.Play(self)
             InputEnableLayer myLayer = InputEnableLayer.Create()
             myLayer.DisablePlayerControls()
-            Utility.Wait(0.2)
 
             float destinationX = self.GetPositionX()
             float destinationY = self.GetPositionY()
             float destinationZ = self.GetPositionZ() + 60
             float gravitySpeed = 60.0
             float rotationalSpeed = 10.0
+            ; TODO: shake and spiral player into the center
             player.TranslateTo(destinationX, destinationY, destinationZ, 0, 0, 0, gravitySpeed, rotationalSpeed)
 
             ;player.MoveTo(self, 0, 0, 100)
-            Utility.Wait(0.5)
+            Utility.Wait(2.1)
             self.PlaceAtMe(AttackExplosion)
             self.PlaceAtMe(Reaction)
             player.Kill(self)
