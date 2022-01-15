@@ -6,6 +6,7 @@ Sound Property BeepSlowest Auto Const
 Sound Property BeepSlow Auto Const
 Sound Property BeepMedium Auto Const
 Sound Property BeepFast Auto Const
+ImageSpaceModifier Property GravityAnomalyImod Auto Const
 
 int PollingTimerId = 386130 Const
 float PollingIntervalSec = 1.0 Const
@@ -52,6 +53,7 @@ Function DoPolling()
             StartTimer(0.0, BeepTimerId)
         Else
             Debug.Trace("[aotc][proximity] Anomaly is far, cancel BeepTimer")
+            GravityAnomalyImod.Remove()
             ClosestAnomaly = None
             CancelTimer(BeepTimerId)
         EndIf
@@ -67,7 +69,12 @@ Function DoBeep()
     If distance > TriggerDistance || PlayerRef.IsDead()
         Debug.Trace("[aotc][proximity] Distance was too big, beep exited voluntarly")
         Return
-    ElseIf distance > DistanceSlowBeep
+    EndIf
+
+    float effectStrength = GetAnomalyStrength(distance)
+    GravityAnomalyImod.PopTo(GravityAnomalyImod, effectStrength)
+
+    If distance > DistanceSlowBeep
         BeepSlowest.Play(PlayerRef)
         StartTimer(PauseSlowestBeep, BeepTimerId)
     ElseIf distance > DistanceMediumBeep
@@ -80,4 +87,10 @@ Function DoBeep()
         BeepFast.Play(PlayerRef)
         StartTimer(PauseFastBeep, BeepTimerId)
     EndIf
+EndFunction
+
+float Function GetAnomalyStrength(float distance)
+    float normalizedDistance = Math.pow(distance / TriggerDistance, 2)
+    float effectStrength = 1.0 - normalizedDistance
+    return effectStrength
 EndFunction
