@@ -4,6 +4,7 @@ ImageSpaceModifier Property PlayerImod Auto Const
 Explosion Property AttackExplosion Auto Const
 Explosion Property Reaction Auto Const
 Sound Property PreAttackSound Auto Const
+ImpactDataSet Property BlackPitImpactSet Auto Const
 
 int GravityActionTimerId = 386126 Const
 int KillActionTimerId = 386127 Const
@@ -31,8 +32,28 @@ EndFunction
 
 Event OnLoad()
     ;Debug.Trace("[aotc][behavior] onload happened")
+    PlaceImpact()
     RegisterForDistanceLessThanEvent(Game.GetPlayer(), self, GlobalTriggerDistance)
     RegisterForDistanceGreaterThanEvent(Game.GetPlayer(), self, GlobalTriggerDistance)
+
+    ; Actor player = Game.GetPlayer()
+    ; float playerX = player.GetPositionX()
+    ; float playerY = player.GetPositionY()
+    ; float playerZ = player.GetPositionZ()
+    ; MovableStatic barrier = Game.GetForm(0x000F676A) as MovableStatic
+    ; ObjectReference ref = Game.FindClosestReferenceOfType(barrier, playerX, playerY, playerZ, 30000)
+    ; Debug.Trace("[aotc][behavior] closest barrier: " + ref.GetPositionX() + ", " + ref.GetPositionY())
+    
+    ; MovableStatic barrier = Game.GetForm(0x000F676A) as MovableStatic
+    ; ObjectReference[] refs = Game.GetPlayer().FindAllReferencesOfType(barrier, 3000.0)
+    ; Debug.Trace("[aotc][behavior] ref length: " + refs.Length)
+    ; int i = 0
+    ; While i < refs.Length
+    ;     ObjectReference barrierObj = refs[i]
+    ;     barrierObj.MoveTo(barrierObj, 0, 0, 200)
+    ;     Debug.Trace("[aotc][behavior] barrier moved up")
+    ;     i += 1
+    ; EndWhile
 EndEvent
 
 Event OnUnload()
@@ -92,6 +113,7 @@ Function DoKillBehavior(Actor player)
     PreAttackSound.Play(self)
     InputEnableLayer myLayer = InputEnableLayer.Create()
     myLayer.DisablePlayerControls()
+    Game.StartDialogueCameraOrCenterOnTarget(player)
 
     ; Spiral player into the anomaly
     int i = 0
@@ -130,8 +152,14 @@ Function CustomSplineTo(float offsetX, float offsetY, float magnitude, float rot
     player.SplineTranslateTo(destinationX + offsetX, destinationY + offsetY, destinationZ, 0, 0, rotZ, magnitude, RockingSpeed, rotationalSpeed)
 EndFunction
 
-Function DoGravityBehavior(Actor player)
+Function DoGravityBehavior(Actor player, bool doGravity = true)
     player.TranslateToRef(self, 60)
-    Utility.Wait(0.3)
+    Utility.Wait(0.4)
     player.StopTranslation()
 EndFunction
+
+Function PlaceImpact()
+    float pickLength = 512
+    PlayImpactEffect(BlackPitImpactSet, "", 0, 0, -1, pickLength, false, false)
+EndFunction
+
