@@ -8,7 +8,6 @@
 !Data/Meshes/aotc/**/*
 
 !Data/Scripts
-!Data/Scripts/**/*.pex
 !Data/Scripts/Source
 !Data/Scripts/Source/User
 !Data/Scripts/Source/User/**/*.psc
