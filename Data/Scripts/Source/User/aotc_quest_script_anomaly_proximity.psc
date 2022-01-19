@@ -7,6 +7,8 @@ Sound Property BeepSlow Auto Const
 Sound Property BeepMedium Auto Const
 Sound Property BeepFast Auto Const
 ImageSpaceModifier Property GravityAnomalyImod Auto Const
+ImageSpaceModifier Property GravityAnomalyWeakImod Auto Const
+ImageSpaceModifier Property ZeroEffect Auto Const
 
 int PollingTimerId = 386130 Const
 float PollingIntervalSec = 1.0 Const
@@ -23,12 +25,12 @@ float PauseFastBeep = 0.232 Const
 ObjectReference ClosestAnomaly = None
 
 Event OnQuestInit()
-    Debug.Trace("[aotc][proximity] OnQuestInit happened")
+    ;Debug.Trace("[aotc][proximity] OnQuestInit happened")
     StartTimer(0.0, PollingTimerId)
 EndEvent
 
 Event OnTimer(int timerId)
-    Debug.Trace("[aotc][proximity] OnTimer happened")
+    ;Debug.Trace("[aotc][proximity] OnTimer happened")
     If timerId == PollingTimerId
         DoPolling()
     ElseIf timerId == BeepTimerId
@@ -39,21 +41,22 @@ EndEvent
 ; Poll for the closest anomaly in range {TriggerDistance} every {PollingIntervalSec} seconds
 ; If we found an anomaly, save it to a local variable so that {DoBeep} can access it to save computation
 Function DoPolling()
-    Debug.Trace("[aotc][proximity] poll Anomaly")
+    ;Debug.Trace("[aotc][proximity] poll Anomaly")
     ; TODO:
     ; Since {PollingIntervalSec} is very slow, we need to find the closest anomaly 
     ; before {TriggerDistance} could be reached. That's why we use {PreTriggerDistance} which is bigger
     ObjectReference anomalyRef = Game.FindClosestReferenceOfTypeFromRef(GravityAnomaly, PlayerRef, TriggerDistance)
     bool differentFromLastPoll = ClosestAnomaly != anomalyRef
-    bool isAnomalyClose = anomalyRef != None
     If differentFromLastPoll
+        bool isAnomalyClose = anomalyRef != None
         If isAnomalyClose
-            Debug.Trace("[aotc][proximity] Anomaly is close, start BeepTimer")
+            ;Debug.Trace("[aotc][proximity] Anomaly is close, start BeepTimer")
             ClosestAnomaly = anomalyRef
             StartTimer(0.0, BeepTimerId)
+            ; GravityAnomalyWeakImod.ApplyCrossFade(1.0)
         Else
-            Debug.Trace("[aotc][proximity] Anomaly is far, cancel BeepTimer")
-            GravityAnomalyImod.Remove()
+            ;Debug.Trace("[aotc][proximity] Anomaly is far, cancel BeepTimer")
+            ZeroEffect.ApplyCrossFade(1.0)
             ClosestAnomaly = None
             CancelTimer(BeepTimerId)
         EndIf
@@ -67,12 +70,15 @@ Function DoBeep()
     EndIf
     float distance = PlayerRef.GetDistance(ClosestAnomaly)
     If distance > TriggerDistance || PlayerRef.IsDead()
-        Debug.Trace("[aotc][proximity] Distance was too big, beep exited voluntarly")
+        ;Debug.Trace("[aotc][proximity] Distance was too big, beep exited voluntarly")
         Return
     EndIf
 
-    float effectStrength = GetAnomalyStrength(distance)
-    GravityAnomalyImod.PopTo(GravityAnomalyImod, effectStrength)
+    If distance > DistanceMediumBeep
+        GravityAnomalyWeakImod.ApplyCrossFade(1.0)
+    Else
+        GravityAnomalyImod.ApplyCrossFade(0.5)
+    EndIf
 
     If distance > DistanceSlowBeep
         BeepSlowest.Play(PlayerRef)
@@ -87,10 +93,4 @@ Function DoBeep()
         BeepFast.Play(PlayerRef)
         StartTimer(PauseFastBeep, BeepTimerId)
     EndIf
-EndFunction
-
-float Function GetAnomalyStrength(float distance)
-    float normalizedDistance = Math.pow(distance / TriggerDistance, 2)
-    float effectStrength = 1.0 - normalizedDistance
-    return effectStrength
 EndFunction

@@ -1,57 +1,45 @@
-Scriptname aotc_actor_script_anomaly_behavior Extends Actor Const
+Scriptname aotc_actor_script_anomaly_behavior Extends Actor
 
 Explosion Property AttackExplosion Auto Const
 Explosion Property Reaction Auto Const
 Sound Property PreAttackSound Auto Const
 ImpactDataSet Property BlackPitImpactSet Auto Const
-Actor Property PlayerRef Auto Const
 
+int PollingTimerId = 386125 Const
+float PollingIntervalSec = 1.0 Const
 int GravityActionTimerId = 386126 Const
-int KillActionTimerId = 386127 Const
-float KillDistancePct = 0.4 Const
 float GravityDistancePct = 1.0 Const
-float IdleTimerSec = 0.5 Const
+int KillActionTimerId = 386127 Const
+float KillDistancePct = 0.6 Const
 float KillTimerSec = 0.1 Const
 float GravityTimerSec = 0.2 Const
 float BehaviorDistance = 350.0 Const
-float RockingSpeed = 200.0 Const
+float RockingSpeed = 300.0 Const
+
+Actor ClosestNpc = None
 
 Function CleanUpSoft()
-    ;Debug.Trace("[aotc][behavior] cleanup soft happened")
+    Debug.Trace("[aotc][behavior] cleanup soft happened")
     CancelTimer(KillActionTimerId)
     CancelTimer(GravityActionTimerId)
+    If ClosestNpc != None
+        ClosestNpc.StopTranslation()
+        ClosestNpc = None
+    EndIf
 EndFunction
 
 Function CleanUpCell()
-    ;Debug.Trace("[aotc][behavior] cleanup cell happened")
-    UnRegisterForDistanceEvents(PlayerRef, self)
+    Debug.Trace("[aotc][behavior] cleanup cell happened")
+    UnRegisterForDistanceEvents(ClosestNpc, self)
     CleanUpSoft()
 EndFunction
 
 Event OnLoad()
     ;Debug.Trace("[aotc][behavior] onload happened")
     PlaceImpact()
-    RegisterForDistanceLessThanEvent(PlayerRef, self, BehaviorDistance)
-    RegisterForDistanceGreaterThanEvent(PlayerRef, self, BehaviorDistance)
-
-    ; Actor player = PlayerRef
-    ; float playerX = player.GetPositionX()
-    ; float playerY = player.GetPositionY()
-    ; float playerZ = player.GetPositionZ()
-    ; MovableStatic barrier = Game.GetForm(0x000F676A) as MovableStatic
-    ; ObjectReference ref = Game.FindClosestReferenceOfType(barrier, playerX, playerY, playerZ, 30000)
-    ; Debug.Trace("[aotc][behavior] closest barrier: " + ref.GetPositionX() + ", " + ref.GetPositionY())
     
-    ; MovableStatic barrier = Game.GetForm(0x000F676A) as MovableStatic
-    ; ObjectReference[] refs = PlayerRef.FindAllReferencesOfType(barrier, 3000.0)
-    ; Debug.Trace("[aotc][behavior] ref length: " + refs.Length)
-    ; int i = 0
-    ; While i < refs.Length
-    ;     ObjectReference barrierObj = refs[i]
-    ;     barrierObj.MoveTo(barrierObj, 0, 0, 200)
-    ;     Debug.Trace("[aotc][behavior] barrier moved up")
-    ;     i += 1
-    ; EndWhile
+    ; Start polling for NPCs
+    StartTimer(0.0, PollingTimerId)
 EndEvent
 
 Event OnUnload()
@@ -59,27 +47,24 @@ Event OnUnload()
 	CleanUpCell()
 EndEvent
 
-Event OnDistanceLessThan(ObjectReference _player, ObjectReference _self, float afDistance)
-    ;Debug.MessageBox("[aotc][behavior] distance less (" + afDistance + "/" + BehaviorDistance + "): start timer")
-    RegisterForDistanceGreaterThanEvent(_player, _self, BehaviorDistance)
-    StartTimer(0.0, KillActionTimerId)
-    StartTimer(0.0, GravityActionTimerId)
-EndEvent
-
-Event OnDistanceGreaterThan(ObjectReference _player, ObjectReference _self, float afDistance)
-    ;Debug.MessageBox("[aotc][behavior] distance greater (" + afDistance + "/" + BehaviorDistance + "): cancel timer")
-    RegisterForDistanceLessThanEvent(_player, _self, BehaviorDistance)
-    CleanUpSoft()
-EndEvent
-
 Event OnTimer(int timerId)
     ;Debug.Trace("[aotc][behavior] ontimer happened")
-    float distance = PlayerRef.GetDistance(self)
+    If timerId == PollingTimerId
+        DoPolling()
+        StartTimer(PollingIntervalSec, PollingTimerId)
+        Return
+    EndIf
 
+    If ClosestNpc == None
+        Return
+    EndIf
+    float distance = self.GetDistance(ClosestNpc)
+    Debug.Trace("[aotc][behavior] Npc is present at distance " + distance)
     float killDistance = KillDistancePct * BehaviorDistance
     If timerId == KillActionTimerId
         If distance < killDistance
-            DoKillBehavior(PlayerRef)
+            Debug.Trace("[aotc][behavior] Npc is too close, do kill " + ClosestNpc)
+            DoKillBehavior()
         Else
             StartTimer(KillTimerSec, KillActionTimerId)
         EndIf
@@ -87,60 +72,151 @@ Event OnTimer(int timerId)
         float gravityDistance = GravityDistancePct * BehaviorDistance
         bool inGravityPullRange = distance > killDistance && distance < gravityDistance
         If inGravityPullRange
-            DoGravityBehavior(PlayerRef)
+            Debug.Trace("[aotc][behavior] Npc is close, do gravity " + ClosestNpc)
+            DoGravityBehavior()
         EndIf
         StartTimer(GravityTimerSec, GravityActionTimerId)
     EndIf
 EndEvent
 
-Function DoKillBehavior(Actor PlayerRef)
-    ; Debug.Trace("[aotc] Kill explosion")
-    PreAttackSound.Play(self)
-    InputEnableLayer myLayer = InputEnableLayer.Create()
-    myLayer.DisablePlayerControls()
-    Game.StartDialogueCameraOrCenterOnTarget(PlayerRef)
+Function DoPolling()
+    Actor npcRef = FindClosestActor(self, BehaviorDistance)
+    If npcRef == None
+        If ClosestNpc == None
+            Debug.Trace("[aotc][behavior] Npc is far, cancel Gravity/Kill timer")
+        Else
+            Debug.Trace("[aotc][behavior] Npc is far, cancel Gravity/Kill timer, previous distance: " + self.GetDistance(ClosestNpc))
+        EndIf
+        CleanUpSoft()
+        Return
+    EndIf
+    Debug.Trace("[aotc][behavior] Found npc: " + npcRef)
+    bool differentFromLastPoll = ClosestNpc != npcRef
+    If differentFromLastPoll
+        Debug.Trace("[aotc][behavior] New npc is close, start Gravity/Kill timer")
+        ClosestNpc = npcRef
+        StartTimer(0.0, KillActionTimerId)
+        StartTimer(0.0, GravityActionTimerId)
+    EndIf
+EndFunction
 
-    ; Spiral player into the anomaly
+Actor Function FindClosestActor(Actor center, float radius)
+    Actor actorRef = None
+    float actorDistance = 9999999.0
+    Actor tmpRef = None
+    float tmpDistance = 9999999.0
+    float subRad = radius/2.0
+    
+    ; ( r,  r)
+    float posX = center.GetPositionX() + subRad
+    float posY = center.GetPositionY() + subRad
+    float posZ = center.GetPositionZ()
+    tmpRef = FindClosestActorStep(posX, posY, posZ, radius, subRad, actorDistance, center)
+    If tmpRef != None
+        actorRef = tmpRef
+    EndIf
+    ; ( r, -r)
+    posX = center.GetPositionX() + subRad
+    posY = center.GetPositionY() - subRad
+    tmpRef = FindClosestActorStep(posX, posY, posZ, radius, subRad, actorDistance, center)
+    If tmpRef != None
+        actorRef = tmpRef
+    EndIf
+    ; (-r,  r)
+    posX = center.GetPositionX() - subRad
+    posY = center.GetPositionY() + subRad
+    tmpRef = FindClosestActorStep(posX, posY, posZ, radius, subRad, actorDistance, center)
+    If tmpRef != None
+        actorRef = tmpRef
+    EndIf
+    ; (-r, -r)
+    posX = center.GetPositionX() - subRad
+    posY = center.GetPositionY() - subRad
+    tmpRef = FindClosestActorStep(posX, posY, posZ, radius, subRad, actorDistance, center)
+    If tmpRef != None
+        actorRef = tmpRef
+    EndIf
+
+    Return actorRef
+EndFunction
+
+Actor Function FindClosestActorStep(float pX, float pY, float pZ, float radius, float subRad, float actorDistance, Actor center)
+    Actor tmpRef = Game.FindClosestActor(pX, pY, pZ, subRad)
+    If tmpRef == None || tmpRef.GetBaseObject() == center.GetBaseObject()
+        Return None
+    EndIf
+    float dist = tmpRef.GetDistance(center)
+    If dist < actorDistance && dist <= radius
+        Return tmpRef
+    EndIf
+    Return None
+EndFunction
+
+Function DoKillBehavior()
+    Debug.Trace("[aotc][behavior] Kill explosion")
+    PreAttackSound.Play(self)
+
+    If ClosestNpc == Game.GetPlayer()
+        InputEnableLayer myLayer = InputEnableLayer.Create()
+        myLayer.DisablePlayerControls()
+        Game.StartDialogueCameraOrCenterOnTarget(ClosestNpc)
+    EndIf
+
+    ; Spiral actor into the anomaly
     int i = 0
     float rockingMagnitude = 90
     float tangentMagnitude = 100
     while (i < 3)
         CustomSplineTo(rockingMagnitude, 0, tangentMagnitude, i * 90)
-        Utility.Wait(0.3)
+        Utility.Wait(0.2)
         CustomSplineTo(-rockingMagnitude, 0, -tangentMagnitude, i * 90 + 45)
-        Utility.Wait(0.3)
+        Utility.Wait(0.2)
         rockingMagnitude = rockingMagnitude / 1.2
         i += 1
     endwhile
     
     ; Move to the center
     CustomSplineTo(0, 0, tangentMagnitude, 0)
-    Utility.Wait(0.3)
-    PlayerRef.StopTranslation()
+    Utility.Wait(0.2)
+    If ClosestNpc == None
+        Return
+    EndIf
+    ClosestNpc.StopTranslation()
 
     ; Start explosion, disintegrate player, kill him
     self.PlaceAtMe(AttackExplosion)
     self.PlaceAtMe(Reaction)
-    PlayerRef.Dismember("Torso", true, true, true)
-    Utility.wait(0.2)
-    PlayerRef.Kill(self)
-    PlayerRef.SetAlpha(0.0, true)
+    If ClosestNpc == None
+        Return
+    EndIf
+    ClosestNpc.Dismember("Torso", true, true, true)
+    ClosestNpc.Kill(self)
+    ClosestNpc.SetAlpha(0.0, true)
+    Utility.wait(0.4)
+    If ClosestNpc == None
+        Return
+    EndIf
+    ClosestNpc.SetPosition(0, 0, -10000)
+
 EndFunction
 
 Function CustomSplineTo(float offsetX, float offsetY, float magnitude, float rotZ)
-    float selfCenterOffset = 60.0
+    If ClosestNpc == None
+        Return
+    EndIf
+    float selfCenterOffset = 20.0
     float destinationX = self.GetPositionX()
     float destinationY = self.GetPositionY()
     float destinationZ = self.GetPositionZ() + selfCenterOffset
     float rotationalSpeed = 100.0
-    PlayerRef.SplineTranslateTo(destinationX + offsetX, destinationY + offsetY, destinationZ, 0, 0, rotZ, magnitude, RockingSpeed, rotationalSpeed)
+    ClosestNpc.SplineTranslateTo(destinationX + offsetX, destinationY + offsetY, destinationZ, 0, 0, rotZ, magnitude, RockingSpeed, rotationalSpeed)
 EndFunction
 
 ; just toss the player a little closer to the anomaly
-Function DoGravityBehavior(Actor player, bool doGravity = true)
-    player.TranslateToRef(self, 60)
+Function DoGravityBehavior(bool doGravity = true)
+    ClosestNpc.TranslateToRef(self, 50)
     Utility.Wait(0.4)
-    player.StopTranslation()
+    ClosestNpc.StopTranslation()
 EndFunction
 
 ; Technically it will be a black crater but it's called an 'Impact'
