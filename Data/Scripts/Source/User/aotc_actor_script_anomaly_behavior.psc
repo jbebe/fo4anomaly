@@ -4,13 +4,14 @@ Explosion Property AttackExplosion Auto Const
 Explosion Property Reaction Auto Const
 Sound Property PreAttackSound Auto Const
 ImpactDataSet Property BlackPitImpactSet Auto Const
+Keyword Property ActorNpcsKeyword Auto Const
 
 int PollingTimerId = 386125 Const
 float PollingIntervalSec = 1.0 Const
 int GravityActionTimerId = 386126 Const
 float GravityDistancePct = 1.0 Const
 int KillActionTimerId = 386127 Const
-float KillDistancePct = 0.6 Const
+float KillDistancePct = 0.4 Const
 float KillTimerSec = 0.1 Const
 float GravityTimerSec = 0.2 Const
 float BehaviorDistance = 350.0 Const
@@ -101,55 +102,23 @@ Function DoPolling()
 EndFunction
 
 Actor Function FindClosestActor(Actor center, float radius)
-    Actor actorRef = None
-    float actorDistance = 9999999.0
-    Actor tmpRef = None
-    float tmpDistance = 9999999.0
-    float subRad = radius/2.0
-    
-    ; ( r,  r)
-    float posX = center.GetPositionX() + subRad
-    float posY = center.GetPositionY() + subRad
-    float posZ = center.GetPositionZ()
-    tmpRef = FindClosestActorStep(posX, posY, posZ, radius, subRad, actorDistance, center)
-    If tmpRef != None
-        actorRef = tmpRef
-    EndIf
-    ; ( r, -r)
-    posX = center.GetPositionX() + subRad
-    posY = center.GetPositionY() - subRad
-    tmpRef = FindClosestActorStep(posX, posY, posZ, radius, subRad, actorDistance, center)
-    If tmpRef != None
-        actorRef = tmpRef
-    EndIf
-    ; (-r,  r)
-    posX = center.GetPositionX() - subRad
-    posY = center.GetPositionY() + subRad
-    tmpRef = FindClosestActorStep(posX, posY, posZ, radius, subRad, actorDistance, center)
-    If tmpRef != None
-        actorRef = tmpRef
-    EndIf
-    ; (-r, -r)
-    posX = center.GetPositionX() - subRad
-    posY = center.GetPositionY() - subRad
-    tmpRef = FindClosestActorStep(posX, posY, posZ, radius, subRad, actorDistance, center)
-    If tmpRef != None
-        actorRef = tmpRef
-    EndIf
-
-    Return actorRef
-EndFunction
-
-Actor Function FindClosestActorStep(float pX, float pY, float pZ, float radius, float subRad, float actorDistance, Actor center)
-    Actor tmpRef = Game.FindClosestActor(pX, pY, pZ, subRad)
-    If tmpRef == None || tmpRef.GetBaseObject() == center.GetBaseObject()
-        Return None
-    EndIf
-    float dist = tmpRef.GetDistance(center)
-    If dist < actorDistance && dist <= radius
-        Return tmpRef
-    EndIf
-    Return None
+    ObjectReference[] refs = center.FindAllReferencesWithKeyword(ActorNpcsKeyword, radius)
+    Debug.Trace("[aotc][behavior] Found objrefs: " + refs.Length)
+    Actor closestRef = None
+    float closestDistance = 999999.0
+    int i = 0
+    While i < refs.Length
+        ObjectReference ref = refs[i]
+        If ref is Actor && ref != center
+            float dist = ref.GetDistance(center)
+            If dist < closestDistance
+                closestRef = ref as Actor
+                closestDistance = dist
+            EndIf
+        EndIf
+        i += 1
+    EndWhile    
+    Return closestRef
 EndFunction
 
 Function DoKillBehavior()
