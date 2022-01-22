@@ -69,6 +69,8 @@ The anomaly is surrounded by leaves or dust particles.
 	Create the cellar of sidorovich  
 	Create sidorovich as a speaking actor, voice lines, missions, etc.  
 
-Create Sidorovich
-	- Body: Armor_HazmatSuit
-	- 
+noises:
+	AMBLightFluorescentLightBuzzBLPmarker
+	AMBIntGenericWindDraftSpotALPmarker
+
+
