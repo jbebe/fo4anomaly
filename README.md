@@ -40,6 +40,7 @@ The anomaly is surrounded by leaves or dust particles.
 	**[DONE]** add a blast pit under the anomaly  
 	[DOESNT WORK] change to 3rd person when killing the player  
 	[DOESNT WORK] switch to ragdoll when player is sucked in  
+	FXBitsDebrisLeaves01 for effect instead of the white thingy
 2. **[DONE]** move proximity sound script to player  
 	give the script an input array of all the anomalies  
 	calculate the closest one to the player  
@@ -67,3 +68,7 @@ The anomaly is surrounded by leaves or dust particles.
 	Optionally remove the rad scorpions  
 	Create the cellar of sidorovich  
 	Create sidorovich as a speaking actor, voice lines, missions, etc.  
+
+Create Sidorovich
+	- Body: Armor_HazmatSuit
+	- 
