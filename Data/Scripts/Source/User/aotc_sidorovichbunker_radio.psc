@@ -3,7 +3,7 @@ Scriptname aotc_sidorovichbunker_radio extends ObjectReference
 ObjectReference Property MufflingDoor Auto Const
 Sound Property RadioTrack Auto Const
 
-float MuffledVol = 0.1 Const
+float MuffledVol = 0.2 Const
 float FullVol = 1.0 Const
 float DoorVolumeDelay = 0.5 Const
 int DoorClosed = 3 Const

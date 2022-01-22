@@ -16,6 +16,8 @@
 2. Reload ESP after saving in CK: `hlp AnomaliesOfTheCommonwealth.esp`  
 3. Changed papyrus scripts: `reloadscript`
 
+1. `coc aotcSidorovichBunker`
+
 ## What is an anomaly?
 
 We are going to implement the Springboard anomaly.

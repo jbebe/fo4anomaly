@@ -14,8 +14,13 @@
 !Data/Textures/aotc
 !Data/Textures/aotc/**/*
 
+!Data/Sound
+!Data/Sound/Voice
+!Data/Sound/Voice/AnomaliesOfTheCommonwealth.esp
+!Data/Sound/Voice/AnomaliesOfTheCommonwealth.esp/aotc_vtype_sidorovich
+!Data/Sound/Voice/AnomaliesOfTheCommonwealth.esp/aotc_vtype_sidorovich/**/*
+
 !Data/Scripts
 !Data/Scripts/Source
 !Data/Scripts/Source/User
 !Data/Scripts/Source/User/**/*.psc
-
