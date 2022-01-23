@@ -1,5 +1,9 @@
 Scriptname aotc_actor_script_anomaly_behavior Extends Actor
 
+Function _debug(string dbgMessage)
+    Debug.Trace(dbgMessage)
+EndFunction
+
 Explosion Property AttackExplosion Auto Const
 Explosion Property Reaction Auto Const
 Sound Property PreAttackSound Auto Const
@@ -20,7 +24,6 @@ float RockingSpeed = 300.0 Const
 Actor ClosestNpc = None
 
 Function CleanUpSoft()
-    Debug.Trace("[aotc][behavior] cleanup soft happened")
     CancelTimer(KillActionTimerId)
     CancelTimer(GravityActionTimerId)
     If ClosestNpc != None
@@ -30,13 +33,11 @@ Function CleanUpSoft()
 EndFunction
 
 Function CleanUpCell()
-    Debug.Trace("[aotc][behavior] cleanup cell happened")
     UnRegisterForDistanceEvents(ClosestNpc, self)
     CleanUpSoft()
 EndFunction
 
 Event OnLoad()
-    ;Debug.Trace("[aotc][behavior] onload happened")
     PlaceImpact()
     
     ; Start polling for NPCs
@@ -44,12 +45,10 @@ Event OnLoad()
 EndEvent
 
 Event OnUnload()
-    ;Debug.Trace("[aotc][behavior] onunload happened")
 	CleanUpCell()
 EndEvent
 
 Event OnTimer(int timerId)
-    ;Debug.Trace("[aotc][behavior] ontimer happened")
     If timerId == PollingTimerId
         DoPolling()
         StartTimer(PollingIntervalSec, PollingTimerId)
@@ -60,11 +59,10 @@ Event OnTimer(int timerId)
         Return
     EndIf
     float distance = self.GetDistance(ClosestNpc)
-    Debug.Trace("[aotc][behavior] Npc is present at distance " + distance)
     float killDistance = KillDistancePct * BehaviorDistance
     If timerId == KillActionTimerId
         If distance < killDistance
-            Debug.Trace("[aotc][behavior] Npc is too close, do kill " + ClosestNpc)
+            _debug("[aotc][behavior] Npc is too close, do kill " + ClosestNpc)
             DoKillBehavior()
         Else
             StartTimer(KillTimerSec, KillActionTimerId)
@@ -73,7 +71,7 @@ Event OnTimer(int timerId)
         float gravityDistance = GravityDistancePct * BehaviorDistance
         bool inGravityPullRange = distance > killDistance && distance < gravityDistance
         If inGravityPullRange
-            Debug.Trace("[aotc][behavior] Npc is close, do gravity " + ClosestNpc)
+            _debug("[aotc][behavior] Npc is close, do gravity " + ClosestNpc)
             DoGravityBehavior()
         EndIf
         StartTimer(GravityTimerSec, GravityActionTimerId)
@@ -83,18 +81,11 @@ EndEvent
 Function DoPolling()
     Actor npcRef = FindClosestActor(self, BehaviorDistance)
     If npcRef == None
-        If ClosestNpc == None
-            Debug.Trace("[aotc][behavior] Npc is far, cancel Gravity/Kill timer")
-        Else
-            Debug.Trace("[aotc][behavior] Npc is far, cancel Gravity/Kill timer, previous distance: " + self.GetDistance(ClosestNpc))
-        EndIf
         CleanUpSoft()
         Return
     EndIf
-    Debug.Trace("[aotc][behavior] Found npc: " + npcRef)
     bool differentFromLastPoll = ClosestNpc != npcRef
     If differentFromLastPoll
-        Debug.Trace("[aotc][behavior] New npc is close, start Gravity/Kill timer")
         ClosestNpc = npcRef
         StartTimer(0.0, KillActionTimerId)
         StartTimer(0.0, GravityActionTimerId)
@@ -103,7 +94,6 @@ EndFunction
 
 Actor Function FindClosestActor(Actor center, float radius)
     ObjectReference[] refs = center.FindAllReferencesWithKeyword(ActorNpcsKeyword, radius)
-    Debug.Trace("[aotc][behavior] Found objrefs: " + refs.Length)
     Actor closestRef = None
     float closestDistance = 999999.0
     int i = 0
@@ -122,7 +112,7 @@ Actor Function FindClosestActor(Actor center, float radius)
 EndFunction
 
 Function DoKillBehavior()
-    Debug.Trace("[aotc][behavior] Kill explosion")
+    _debug("[aotc][behavior] Kill explosion")
     PreAttackSound.Play(self)
 
     If ClosestNpc == Game.GetPlayer()

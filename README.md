@@ -71,8 +71,6 @@ The anomaly is surrounded by leaves or dust particles.
 	Create the cellar of sidorovich  
 	Create sidorovich as a speaking actor, voice lines, missions, etc.  
 
-noises:
-	AMBLightFluorescentLightBuzzBLPmarker
-	AMBIntGenericWindDraftSpotALPmarker
 
-
+TODO:
+	Use SubDoor01Left instead of the white submarine door?

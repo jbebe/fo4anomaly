@@ -1,5 +1,9 @@
 Scriptname aotc_quest_script_anomaly_proximity extends Quest
 
+Function _debug(string dbgMessage)
+    Debug.Trace(dbgMessage)
+EndFunction
+
 Actor Property PlayerRef Auto Const
 Form Property GravityAnomaly Auto Const
 Sound Property BeepSlowest Auto Const
@@ -25,12 +29,11 @@ float PauseFastBeep = 0.232 Const
 ObjectReference ClosestAnomaly = None
 
 Event OnQuestInit()
-    ;Debug.Trace("[aotc][proximity] OnQuestInit happened")
     StartTimer(0.0, PollingTimerId)
 EndEvent
 
 Event OnTimer(int timerId)
-    ;Debug.Trace("[aotc][proximity] OnTimer happened")
+    ;_debug("[aotc][proximity] OnTimer happened")
     If timerId == PollingTimerId
         DoPolling()
     ElseIf timerId == BeepTimerId
@@ -41,7 +44,6 @@ EndEvent
 ; Poll for the closest anomaly in range {TriggerDistance} every {PollingIntervalSec} seconds
 ; If we found an anomaly, save it to a local variable so that {DoBeep} can access it to save computation
 Function DoPolling()
-    ;Debug.Trace("[aotc][proximity] poll Anomaly")
     ; TODO:
     ; Since {PollingIntervalSec} is very slow, we need to find the closest anomaly 
     ; before {TriggerDistance} could be reached. That's why we use {PreTriggerDistance} which is bigger
@@ -50,12 +52,12 @@ Function DoPolling()
     If differentFromLastPoll
         bool isAnomalyClose = anomalyRef != None
         If isAnomalyClose
-            ;Debug.Trace("[aotc][proximity] Anomaly is close, start BeepTimer")
+            ;_debug("[aotc][proximity] Anomaly is close, start BeepTimer")
             ClosestAnomaly = anomalyRef
             StartTimer(0.0, BeepTimerId)
             ; GravityAnomalyWeakImod.ApplyCrossFade(1.0)
         Else
-            ;Debug.Trace("[aotc][proximity] Anomaly is far, cancel BeepTimer")
+            ;_debug("[aotc][proximity] Anomaly is far, cancel BeepTimer")
             ZeroEffect.ApplyCrossFade(1.0)
             ClosestAnomaly = None
             CancelTimer(BeepTimerId)
@@ -70,7 +72,7 @@ Function DoBeep()
     EndIf
     float distance = PlayerRef.GetDistance(ClosestAnomaly)
     If distance > TriggerDistance || PlayerRef.IsDead()
-        ;Debug.Trace("[aotc][proximity] Distance was too big, beep exited voluntarly")
+        _debug("[aotc][proximity] Distance was too big, beep exited voluntarly")
         Return
     EndIf
 

@@ -1,5 +1,9 @@
 Scriptname aotc_sidorovichbunker_radio extends ObjectReference
 
+; This script aids to muffle the radio when the door starts to close 
+; and vica versa. With an Activator radio, we couldn't get the handle of the sound source
+; but this way (sound property) we can.
+
 ObjectReference Property MufflingDoor Auto Const
 Sound Property RadioTrack Auto Const
 
