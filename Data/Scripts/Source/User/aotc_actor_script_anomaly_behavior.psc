@@ -9,6 +9,7 @@ Explosion Property Reaction Auto Const
 Sound Property PreAttackSound Auto Const
 ImpactDataSet Property BlackPitImpactSet Auto Const
 Keyword Property ActorNpcsKeyword Auto Const
+Light Property EffectLight Auto Const
 
 int PollingTimerId = 386125 Const
 float PollingIntervalSec = 1.0 Const
@@ -22,6 +23,7 @@ float BehaviorDistance = 350.0 Const
 float RockingSpeed = 300.0 Const
 
 Actor ClosestNpc = None
+ObjectReference LightRef = None
 
 Function CleanUpSoft()
     CancelTimer(KillActionTimerId)
@@ -39,6 +41,8 @@ EndFunction
 
 Event OnLoad()
     PlaceImpact()
+    LightRef = self.PlaceAtMe(EffectLight)
+    LightRef.SetPosition(self.GetPositionX(), self.GetPositionY(), self.GetPositionZ() + 100)
     
     ; Start polling for NPCs
     StartTimer(0.0, PollingTimerId)

@@ -5,7 +5,6 @@ Function _debug(string dbgMessage)
 EndFunction
 
 Actor Property PlayerRef Auto Const
-Form Property GravityAnomaly Auto Const
 Sound Property BeepSlowest Auto Const
 Sound Property BeepSlow Auto Const
 Sound Property BeepMedium Auto Const
@@ -13,6 +12,7 @@ Sound Property BeepFast Auto Const
 ImageSpaceModifier Property GravityAnomalyImod Auto Const
 ImageSpaceModifier Property GravityAnomalyWeakImod Auto Const
 ImageSpaceModifier Property ZeroEffect Auto Const
+FormList Property AnomalyTypes Auto Const
 
 int PollingTimerId = 386130 Const
 float PollingIntervalSec = 1.0 Const
@@ -47,7 +47,7 @@ Function DoPolling()
     ; TODO:
     ; Since {PollingIntervalSec} is very slow, we need to find the closest anomaly 
     ; before {TriggerDistance} could be reached. That's why we use {PreTriggerDistance} which is bigger
-    ObjectReference anomalyRef = Game.FindClosestReferenceOfTypeFromRef(GravityAnomaly, PlayerRef, TriggerDistance)
+    ObjectReference anomalyRef = Game.FindClosestReferenceOfAnyTypeInListFromRef(AnomalyTypes, PlayerRef, TriggerDistance)
     bool differentFromLastPoll = ClosestAnomaly != anomalyRef
     If differentFromLastPoll
         bool isAnomalyClose = anomalyRef != None
