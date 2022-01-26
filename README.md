@@ -73,12 +73,13 @@ The anomaly is surrounded by leaves or dust particles.
 
 
 TODO:
-	Use SubDoor01Left instead of the white submarine door? --> NO, because the wall plug is not suitable :(
-	SaugusSmokeMirageFX for gravity anomaly --> too slow, too big
-	Sparks01SaugusFoundry --> for fire anomaly
-	TrapElectricArcTarget --> TrapElectricalArc 
-		MuzElectricalTrap.nif
-		TrapElectricArcTarget.nif
+	[SKIPPED] Use SubDoor01Left instead of the white submarine door? --> NO, because the wall plug is not suitable :(
+	[DONE] SaugusSmokeMirageFX for gravity anomaly --> too slow, too big
+	[DONE] Sparks01SaugusFoundry --> for fire anomaly
+	npc.PushActorAway(npc, 0) for enabling ragdoll (or just force ragdoll phy)
+	add flames to the anomaly: FlameThrowerProjectileSprayVaporizer01.nif
+	FXSmokeStackSteam02Half for flame
+
 
 Sidorovich voice lines
 

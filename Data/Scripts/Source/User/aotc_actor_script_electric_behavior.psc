@@ -1,7 +1,7 @@
 Scriptname aotc_actor_script_electric_behavior extends Actor
 
 Function _debug(string dbgMessage)
-    Debug.Trace(dbgMessage)
+    ;Debug.Trace(dbgMessage)
 EndFunction
 
 Static property XMarker Auto Const
@@ -33,10 +33,10 @@ EndEvent
 
 Function DoPolling()
     Actor npcRef = FindRandomActor(self, TargetDistance)
-    If npcRef == None
+    If npcRef == None && ClosestNpc != None
         _debug("[aotc][electric] " + npcRef + " is too far, set to None")
         ClosestNpc = None
-    ElseIf ClosestNpc == None ; and npcRef != None
+    ElseIf npcRef != None && ClosestNpc == None
         _debug("[aotc][electric] " + npcRef + " is close, start firing!")
         ClosestNpc = npcRef
         ; Start attack on a different thread

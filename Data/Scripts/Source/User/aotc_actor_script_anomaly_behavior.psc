@@ -36,13 +36,15 @@ EndFunction
 
 Function CleanUpCell()
     UnRegisterForDistanceEvents(ClosestNpc, self)
+    LightRef.Delete()
     CleanUpSoft()
 EndFunction
 
 Event OnLoad()
     PlaceImpact()
     LightRef = self.PlaceAtMe(EffectLight)
-    LightRef.SetPosition(self.GetPositionX(), self.GetPositionY(), self.GetPositionZ() + 100)
+    LightRef.SetPosition(self.GetPositionX(), self.GetPositionY(), self.GetPositionZ())
+    LightRef.AttachTo(self)
     
     ; Start polling for NPCs
     StartTimer(0.0, PollingTimerId)
@@ -111,13 +113,14 @@ Actor Function FindClosestActor(Actor center, float radius)
             EndIf
         EndIf
         i += 1
-    EndWhile    
+    EndWhile
     Return closestRef
 EndFunction
 
 Function DoKillBehavior()
     _debug("[aotc][behavior] Kill explosion")
     PreAttackSound.Play(self)
+    ClosestNpc.PushActorAway(ClosestNpc, 0.0)
 
     If ClosestNpc == Game.GetPlayer()
         InputEnableLayer myLayer = InputEnableLayer.Create()
@@ -135,6 +138,7 @@ Function DoKillBehavior()
         CustomSplineTo(-rockingMagnitude, 0, -tangentMagnitude, i * 90 + 45)
         Utility.Wait(0.2)
         rockingMagnitude = rockingMagnitude / 1.2
+        ClosestNpc.PushActorAway(ClosestNpc, 0.0)
         i += 1
     endwhile
     
@@ -144,30 +148,21 @@ Function DoKillBehavior()
     If ClosestNpc == None
         Return
     EndIf
+    ClosestNpc.PushActorAway(ClosestNpc, 0.0)
     ClosestNpc.StopTranslation()
 
     ; Start explosion, disintegrate player, kill him
     self.PlaceAtMe(AttackExplosion)
     self.PlaceAtMe(Reaction)
-    If ClosestNpc == None
-        Return
-    EndIf
     ClosestNpc.Dismember("Torso", true, true, true)
     ClosestNpc.Kill(self)
-    ClosestNpc.SetAlpha(0.0, true)
-    Utility.wait(0.4)
-    If ClosestNpc == None
-        Return
-    EndIf
-    ClosestNpc.SetPosition(0, 0, -10000)
-
 EndFunction
 
 Function CustomSplineTo(float offsetX, float offsetY, float magnitude, float rotZ)
     If ClosestNpc == None
         Return
     EndIf
-    float selfCenterOffset = 20.0
+    float selfCenterOffset = 100.0
     float destinationX = self.GetPositionX()
     float destinationY = self.GetPositionY()
     float destinationZ = self.GetPositionZ() + selfCenterOffset

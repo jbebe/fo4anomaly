@@ -1,7 +1,7 @@
 Scriptname aotc_quest_script_anomaly_proximity extends Quest
 
 Function _debug(string dbgMessage)
-    Debug.Trace(dbgMessage)
+    ;Debug.Trace(dbgMessage)
 EndFunction
 
 Actor Property PlayerRef Auto Const
