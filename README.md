@@ -71,15 +71,14 @@ The anomaly is surrounded by leaves or dust particles.
 	Create the cellar of sidorovich  
 	Create sidorovich as a speaking actor, voice lines, missions, etc.  
 
-
-TODO:
-	[SKIPPED] Use SubDoor01Left instead of the white submarine door? --> NO, because the wall plug is not suitable :(
-	[DONE] SaugusSmokeMirageFX for gravity anomaly --> too slow, too big
-	[DONE] Sparks01SaugusFoundry --> for fire anomaly
-	npc.PushActorAway(npc, 0) for enabling ragdoll (or just force ragdoll phy)
-	add flames to the anomaly: FlameThrowerProjectileSprayVaporizer01.nif
-	FXSmokeStackSteam02Half for flame
-
+TODOs:
+* [SKIPPED] Use SubDoor01Left instead of the white submarine door? --> NO, because the wall plug is not suitable :(
+* [DONE] SaugusSmokeMirageFX for gravity anomaly --> too slow, too big
+* [DONE] Sparks01SaugusFoundry --> for fire anomaly
+* [DONE] npc.PushActorAway(npc, 0) for enabling ragdoll (or just force ragdoll phy)
+* [DONE] add flames to the anomaly: FlameThrowerProjectileSprayVaporizer01.nif
+* [DONE] FXSmokeStackSteam02Half for flame
+* Clean-up scripts where we use PlaceAt but dont delete later
 
 Sidorovich voice lines
 
