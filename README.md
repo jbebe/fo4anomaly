@@ -80,6 +80,7 @@ TODOs:
 * [DONE] FXSmokeStackSteam02Half for flame
 * Clean-up scripts where we use PlaceAt but dont delete later
 * Add a flag for the anomalies so that NPCs try to avoid it instead of running into them
+* create vis and mesh precombines for all modified cells if neccessary
 
 Sidorovich voice lines
 
