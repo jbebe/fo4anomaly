@@ -9,6 +9,9 @@
 !Data/Meshes
 !Data/Meshes/aotc
 !Data/Meshes/aotc/**/*
+!Data/Meshes/PreCombined
+!Data/Meshes/PreCombined/AnomaliesOfTheCommonwealth.esp
+!Data/Meshes/PreCombined/AnomaliesOfTheCommonwealth.esp/**/*
 
 !Data/Textures
 !Data/Textures/aotc
