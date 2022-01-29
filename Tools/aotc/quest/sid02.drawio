@@ -1,0 +1,70 @@
+<mxfile host="65bd71144e">
+    <diagram id="OR-iPM9-NGtXue07-piC" name="Page-1">
+        <mxGraphModel dx="1045" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Nate / Nora" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="40" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="Sidorovich" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d80073;fontColor=#ffffff;strokeColor=#A50040;" parent="1" vertex="1">
+                    <mxGeometry x="140" y="40" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="72" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="5" target="71">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="&lt;div&gt;listen ! ive done some thinking and heres what id like to offer.&amp;nbsp;&lt;/div&gt;&lt;div&gt;generally speaking what you really need is to find kellog, right ?&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d80073;fontColor=#ffffff;strokeColor=#A50040;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="150" width="160" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Positive" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="100" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Negative" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="100" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Sarcastic" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+                    <mxGeometry x="440" y="100" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Informative" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="100" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="Sure" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="680" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="Can't help" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="680" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="Sarcastic" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
+                    <mxGeometry x="440" y="680" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="Kellog" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="680" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="68" value="Stupid junk dealer..." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" vertex="1" parent="1">
+                    <mxGeometry x="530" y="180" width="135" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="69" value="return to original chooser" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="680" y="160" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="70" value="Speech 8+&lt;br&gt;barrier" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+                    <mxGeometry x="200" y="170" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="74" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="71" target="73">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="71" value="anyway, heres the thing about [him]. theres a [merc] that goes by this name." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d80073;fontColor=#ffffff;strokeColor=#A50040;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="270" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="76" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="73" target="75">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="73" value="&lt;div&gt;i can help you find him. however as you can imagine it wont be a free ride.&lt;/div&gt;&lt;div&gt;you will have to work it off. but in the long run well both benefit.&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d80073;fontColor=#ffffff;strokeColor=#A50040;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="340" width="160" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="75" value="&lt;div&gt;youre going to waste that fellow and find what happened to you[r boy/son] and ill find...&lt;/div&gt;&lt;div&gt;well i mean ill get my share of our mutual profit.&lt;/div&gt;&lt;div&gt;so what do you say? deal?&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d80073;fontColor=#ffffff;strokeColor=#A50040;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="460" width="160" height="100" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
