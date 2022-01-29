@@ -1,9 +1,11 @@
 Quest:
 
 Stage 10:
-	- sid's bunker is closed
-	- sid's door is closed
+	- [DONE] sid's bunker is closed  
+	- [DONE] sid's door is closed
 	- encounter with <monster> is available at <place>
+		- [DONE] ambush
+		- player fade, shooting, transition to bunker cell
 		
 Stage 20:
 	- <monster> cannot be killed so eventually the player scripted-dies

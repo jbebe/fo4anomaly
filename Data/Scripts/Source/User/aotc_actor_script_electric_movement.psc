@@ -15,6 +15,10 @@ Vec3 OriginalPosition = None
 ObjectReference StrobeLightRef = None
 
 Event OnLoad()
+    If !self.Is3DLoaded()
+        Return
+    EndIf
+    
     OriginalPosition = new Vec3
     OriginalPosition.pX = self.GetPositionX()
     OriginalPosition.pY = self.GetPositionY()

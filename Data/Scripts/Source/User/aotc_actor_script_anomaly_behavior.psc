@@ -41,6 +41,10 @@ Function CleanUpCell()
 EndFunction
 
 Event OnLoad()
+    If !self.Is3DLoaded()
+        Return
+    EndIf
+    
     PlaceImpact()
     LightRef = self.PlaceAtMe(EffectLight)
     LightRef.SetPosition(self.GetPositionX(), self.GetPositionY(), self.GetPositionZ())

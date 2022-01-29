@@ -15,6 +15,9 @@ int DoorClosed = 3 Const
 int RadioTrackId = -1
 
 Event OnLoad()
+    If !self.Is3DLoaded()
+        Return
+    EndIf
     RegisterForRemoteEvent(MufflingDoor, "OnActivate")
     RadioTrackId = RadioTrack.Play(self)
     SetRadioVolumeByDoorState()

@@ -31,6 +31,9 @@ ObjectReference[] ClosestActorRefs = None
 int FireLoopRef = -1
 
 Event OnLoad()
+    If !self.Is3DLoaded()
+        Return
+    EndIf
     ConstantSparksRef = self.PlaceAtMe(ConstantSparks)
     FlameLightRef = self.PlaceAtMe(FlameLight)
     SmokesRef = self.PlaceAtMe(Smokes)

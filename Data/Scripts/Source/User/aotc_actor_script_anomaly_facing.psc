@@ -8,6 +8,10 @@ float TimerSecMiddle = 1.0 Const
 float TimerSecClose = 0.1 Const
 
 Event OnLoad()
+    If !self.Is3DLoaded()
+        Return
+    EndIf
+    
     StartTimer(0.0, ActionTimerId)
 EndEvent
 

@@ -17,6 +17,10 @@ float PollingIntervalSec = 1.0 Const
 Actor ClosestNpc = None
 
 Event OnLoad()
+    If !self.Is3DLoaded()
+        Return
+    EndIf
+    
     ; Start polling for NPCs
     StartTimer(0.0, PollingTimerId)
 EndEvent
