@@ -28,3 +28,7 @@
 !Data/Textures
 !Data/Textures/aotc
 !Data/Textures/aotc/**/*
+
+!Tools
+!Tools/aotc
+!Tools/aotc/**/*
