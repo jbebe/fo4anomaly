@@ -5,7 +5,7 @@ Stage 10:
 	- [DONE] sid's door is closed
 	- encounter with <monster> is available at <place>
 		- [DONE] ambush
-		- player fade, shooting, transition to bunker cell
+		- [DONE] player fade, shooting, transition to bunker cell
 		
 Stage 20:
 	- <monster> cannot be killed so eventually the player scripted-dies

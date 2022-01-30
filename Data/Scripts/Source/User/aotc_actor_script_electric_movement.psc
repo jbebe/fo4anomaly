@@ -36,6 +36,10 @@ Event OnUnload()
 EndEvent
 
 Event OnTimer(int _)
+    If !self.Is3DLoaded()
+        Return
+    EndIf
+    
     self.StopTranslation()
     self.SetPosition(OriginalPosition.pX, OriginalPosition.pY, OriginalPosition.pZ)
     float newX = OriginalPosition.pX + Utility.randomfloat(-Deviance, Deviance)

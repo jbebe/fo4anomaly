@@ -20,6 +20,10 @@ Event OnUnload()
 EndEvent
 
 Event OnTimer(int timerId)
+    If !self.Is3DLoaded()
+        Return
+    EndIf
+    
     float selfX = self.GetPositionX()
     float selfY = self.GetPositionY()
     float selfZ = self.GetPositionZ()

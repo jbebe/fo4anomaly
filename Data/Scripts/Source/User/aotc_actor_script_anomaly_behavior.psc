@@ -59,6 +59,10 @@ Event OnUnload()
 EndEvent
 
 Event OnTimer(int timerId)
+    If !self.Is3DLoaded()
+        Return
+    EndIf
+    
     If timerId == PollingTimerId
         DoPolling()
         StartTimer(PollingIntervalSec, PollingTimerId)
@@ -129,7 +133,6 @@ Function DoKillBehavior()
     If ClosestNpc == Game.GetPlayer()
         InputEnableLayer myLayer = InputEnableLayer.Create()
         myLayer.DisablePlayerControls()
-        Game.StartDialogueCameraOrCenterOnTarget(ClosestNpc)
     EndIf
 
     ; Spiral actor into the anomaly
