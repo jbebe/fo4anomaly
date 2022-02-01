@@ -13,6 +13,10 @@
 !Data/Meshes/PreCombined/AnomaliesOfTheCommonwealth.esp
 !Data/Meshes/PreCombined/AnomaliesOfTheCommonwealth.esp/**/*
 
+!Data/Vis
+!Data/Vis/AnomaliesOfTheCommonwealth.esp
+!Data/Vis/AnomaliesOfTheCommonwealth.esp/**/*
+
 !Data/Scripts
 !Data/Scripts/*.pex
 !Data/Scripts/Source
