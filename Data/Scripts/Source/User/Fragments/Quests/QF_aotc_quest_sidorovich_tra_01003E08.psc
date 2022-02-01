@@ -53,11 +53,20 @@ PlayerRef.SetAngle(14.31, 0.0, 265.12)
 EndFunction
 ;END FRAGMENT
 
+;BEGIN FRAGMENT Fragment_Stage_0030_Item_00
+Function Fragment_Stage_0030_Item_00()
+;BEGIN CODE
+SetObjectiveDisplayed(10)
+;END CODE
+EndFunction
+;END FRAGMENT
+
 ;BEGIN FRAGMENT Fragment_Stage_0040_Item_00
 Function Fragment_Stage_0040_Item_00()
 ;BEGIN CODE
 Alias_BunkerInnerDoor.GetRef().Lock(false)
 Alias_BunkerExtDoor.GetRef().Lock(false)
+SetObjectiveCompleted(10)
 SetStage(1000)
 ;END CODE
 EndFunction
@@ -68,6 +77,7 @@ Function Fragment_Stage_0050_Item_00()
 ;BEGIN CODE
 Alias_BunkerInnerDoor.GetRef().Lock(false)
 Alias_BunkerExtDoor.GetRef().Lock(false)
+SetObjectiveCompleted(10)
 SetStage(60)
 ;END CODE
 EndFunction
@@ -76,7 +86,7 @@ EndFunction
 ;BEGIN FRAGMENT Fragment_Stage_0060_Item_00
 Function Fragment_Stage_0060_Item_00()
 ;BEGIN CODE
-SetObjectiveDisplayed(10)
+SetObjectiveDisplayed(20)
 ;END CODE
 EndFunction
 ;END FRAGMENT

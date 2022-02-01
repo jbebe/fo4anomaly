@@ -29,12 +29,12 @@ Stage 30:
 	- [DONE] if speech check works, goto Stage 40
 
 Stage 40:
-	- open inner door, open external door to sid
-	- let the player out of the bunker
-	- goto Stage 1000
+	- [DONE] open inner door, open external door to sid
+	- [DONE] let the player out of the bunker
+	- [DONE] goto Stage 1000
 
 Stage 50:
-	- open inner door, open external door to sid
+	- [DONE] open inner door, open external door to sid
 
 Stage 60:
 	- set sid's idle to "waiting for case":
