@@ -4,6 +4,12 @@ Function _debug(string dbgMessage)
     Debug.Trace(dbgMessage)
 EndFunction
 
+Function TryDelete(ObjectReference refObj)
+    If refObj != None
+        refObj.Delete()
+    EndIf
+EndFunction
+
 Explosion Property AttackExplosion Auto Const
 Explosion Property Reaction Auto Const
 Sound Property PreAttackSound Auto Const
@@ -35,8 +41,10 @@ Function CleanUpSoft()
 EndFunction
 
 Function CleanUpCell()
-    UnRegisterForDistanceEvents(ClosestNpc, self)
-    LightRef.Delete()
+    If ClosestNpc != None && self != None
+        UnRegisterForDistanceEvents(ClosestNpc, self)
+    EndIf
+    TryDelete(LightRef)
     CleanUpSoft()
 EndFunction
 

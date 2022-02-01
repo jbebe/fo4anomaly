@@ -4,6 +4,12 @@ Function _debug(string dbgMessage)
     Debug.Trace(dbgMessage)
 EndFunction
 
+Function TryDelete(ObjectReference refObj)
+    If refObj != None
+        refObj.Delete()
+    EndIf
+EndFunction
+
 MovableStatic Property ConstantSparks Auto Const
 Light Property FlameLight Auto Const
 STATIC Property FlameProjectile Auto Const
@@ -44,9 +50,9 @@ Event OnLoad()
 EndEvent
 
 Event OnUnload()
-	ConstantSparksRef.Delete()
-	FlameLightRef.Delete()
-    SmokesRef.Delete()
+	TryDelete(ConstantSparksRef)
+	TryDelete(FlameLightRef)
+    TryDelete(SmokesRef)
     StopFlames()
 EndEvent
 
@@ -101,7 +107,7 @@ EndFunction
 Function StopFlames()
     DeleteProjectiles()
     Sound.StopInstance(FireLoopRef)
-    FireHazardRef.Delete()
+    TryDelete(FireHazardRef)
 EndFunction
 
 Function PlaceProjectiles()
@@ -124,9 +130,9 @@ Function PlaceProjectiles()
 EndFunction
 
 Function DeleteProjectiles()
-    Projectile1.Delete()
-    Projectile2.Delete()
-    Projectile3.Delete()
+    TryDelete(Projectile1)
+    TryDelete(Projectile2)
+    TryDelete(Projectile3)
 EndFunction
 
 Function PlaceImpact()

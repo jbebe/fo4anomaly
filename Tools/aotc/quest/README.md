@@ -1,34 +1,42 @@
 Quest:
 
-Stage 10:
+[DONE] Stage 10:
 	- [DONE] sid's bunker is closed  
 	- [DONE] sid's door is closed
 	- encounter with <monster> is available at <place>
 		- [DONE] ambush
 		- [DONE] player fade, shooting, transition to bunker cell
 		
-Stage 20:
+[DONE] Stage 20:
 	- <monster> cannot be killed so eventually the player scripted-dies
-	- player health set to 10%
 	- make player invincible
-	- disable inputs
-	- fade screen to black
-	- gunshot sounds in the distance
-	- remove <monster> from map
+	- [DONE] disable inputs
+	- [DONE] fade screen to black
+	- [DONE] gunshot sounds in the distance
+	- [DONE] remove <monster> from map
+	- [DONE] coc to bunker
+	- [DONE] move player to sid
 
 Stage 30:
-	- coc to bunker
+	- [DONE] wake up at sidorovich, blackout fades out
 	- set start sidorovich idle
 		well, hello there
 		how is it going
 		so. shall we talk business ?
-	- move player to sid
-	- wake up at sidorovich, blackout fades out
-	- wait for scene to start automatically
+	- [DONE] wait for scene to start automatically
+
 	<dialogue (Tools/aotc/sid01.drawio)>
-	- if speech check works, goto Stage 50
+	- [DONE] if speech check works, goto Stage 40
 
 Stage 40:
+	- open inner door, open external door to sid
+	- let the player out of the bunker
+	- goto Stage 1000
+
+Stage 50:
+	- open inner door, open external door to sid
+
+Stage 60:
 	- set sid's idle to "waiting for case":
 		hurry up with that case, alright ?
 		dont forget, i still need that case

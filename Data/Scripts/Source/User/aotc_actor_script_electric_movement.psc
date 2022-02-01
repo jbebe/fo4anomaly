@@ -1,5 +1,9 @@
 Scriptname aotc_actor_script_electric_movement extends Actor
 
+bool Function IsAnimatable()
+    Return self.Is3DLoaded() && self.GetParentCell() != None
+EndFunction
+
 Struct Vec3
     float pX
     float pY
@@ -15,7 +19,7 @@ Vec3 OriginalPosition = None
 ObjectReference StrobeLightRef = None
 
 Event OnLoad()
-    If !self.Is3DLoaded()
+    If !IsAnimatable()
         Return
     EndIf
     
@@ -36,7 +40,7 @@ Event OnUnload()
 EndEvent
 
 Event OnTimer(int _)
-    If !self.Is3DLoaded()
+    If !IsAnimatable()
         Return
     EndIf
     
