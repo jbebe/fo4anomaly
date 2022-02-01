@@ -4,8 +4,12 @@ Scriptname Fragments:Quests:QF_aotc_quest_sidorovich_tra_01003E08 Extends Quest 
 ;BEGIN FRAGMENT Fragment_Stage_0010_Item_00
 Function Fragment_Stage_0010_Item_00()
 ;BEGIN CODE
-Alias_BunkerInnerDoor.GetRef().Disable()
-Alias_BunkerExtDoor.GetRef().Disable()
+; close and lock sid's lobby door
+Alias_BunkerInnerDoor.GetRef().SetOpen(false)
+Alias_BunkerInnerDoor.GetRef().Lock(true)
+; close the exterior bunker door
+Alias_BunkerExtDoor.GetRef().SetOpen(false)
+Alias_BunkerExtDoor.GetRef().Lock(true)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -16,6 +20,8 @@ Function Fragment_Stage_0020_Item_00()
 Actor PlayerRef = Alias_PlayerRef.GetActorRef()
 Actor Monster = Alias_AmbushMonster.GetActorRef()
 
+; Make monster invincible
+Monster.SetGhost(true)
 ; Make player invincible for the scene
 PlayerRef.SetEssential(true)
 ; Wait a little and kock-back player to further help with that deadly hit
@@ -43,7 +49,6 @@ PlayerRef.SetEssential(false)
 ; Move player to Sidorovich's basement
 PlayerRef.MoveTo(teleportMarker)
 PlayerRef.SetAngle(14.31, 0.0, 265.12)
-;Game.FadeOutGame(false, false, 0.0, 0.0, false)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -51,8 +56,8 @@ EndFunction
 ;BEGIN FRAGMENT Fragment_Stage_0040_Item_00
 Function Fragment_Stage_0040_Item_00()
 ;BEGIN CODE
-Alias_BunkerInnerDoor.GetRef().Enable()
-Alias_BunkerExtDoor.GetRef().Enable()
+Alias_BunkerInnerDoor.GetRef().Lock(false)
+Alias_BunkerExtDoor.GetRef().Lock(false)
 SetStage(1000)
 ;END CODE
 EndFunction
@@ -61,8 +66,8 @@ EndFunction
 ;BEGIN FRAGMENT Fragment_Stage_0050_Item_00
 Function Fragment_Stage_0050_Item_00()
 ;BEGIN CODE
-Alias_BunkerInnerDoor.GetRef().Enable()
-Alias_BunkerExtDoor.GetRef().Enable()
+Alias_BunkerInnerDoor.GetRef().Lock(false)
+Alias_BunkerExtDoor.GetRef().Lock(false)
 SetStage(60)
 ;END CODE
 EndFunction
