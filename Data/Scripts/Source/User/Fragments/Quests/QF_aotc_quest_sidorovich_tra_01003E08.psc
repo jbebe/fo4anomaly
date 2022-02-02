@@ -6,10 +6,10 @@ Function Fragment_Stage_0010_Item_00()
 ;BEGIN CODE
 ; close and lock sid's lobby door
 Alias_BunkerInnerDoor.GetRef().SetOpen(false)
-Alias_BunkerInnerDoor.GetRef().Lock(true)
+Alias_BunkerInnerDoor.GetRef().BlockActivation(abBlocked = true, abHideActivateText = true)
 ; close the exterior bunker door
 Alias_BunkerExtDoor.GetRef().SetOpen(false)
-Alias_BunkerExtDoor.GetRef().Lock(true)
+Alias_BunkerExtDoor.GetRef().BlockActivation(abBlocked = true, abHideActivateText = true)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -64,8 +64,8 @@ EndFunction
 ;BEGIN FRAGMENT Fragment_Stage_0040_Item_00
 Function Fragment_Stage_0040_Item_00()
 ;BEGIN CODE
-Alias_BunkerInnerDoor.GetRef().Lock(false)
-Alias_BunkerExtDoor.GetRef().Lock(false)
+Alias_BunkerInnerDoor.GetRef().BlockActivation(abBlocked = false, abHideActivateText = false)
+Alias_BunkerExtDoor.GetRef().BlockActivation(abBlocked = false, abHideActivateText = false)
 SetObjectiveCompleted(10)
 SetStage(1000)
 ;END CODE
@@ -75,8 +75,8 @@ EndFunction
 ;BEGIN FRAGMENT Fragment_Stage_0050_Item_00
 Function Fragment_Stage_0050_Item_00()
 ;BEGIN CODE
-Alias_BunkerInnerDoor.GetRef().Lock(false)
-Alias_BunkerExtDoor.GetRef().Lock(false)
+Alias_BunkerInnerDoor.GetRef().BlockActivation(abBlocked = false, abHideActivateText = false)
+Alias_BunkerExtDoor.GetRef().BlockActivation(abBlocked = false, abHideActivateText = false)
 SetObjectiveCompleted(10)
 SetStage(60)
 ;END CODE
