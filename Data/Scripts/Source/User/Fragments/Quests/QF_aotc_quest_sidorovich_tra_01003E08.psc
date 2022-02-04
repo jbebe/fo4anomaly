@@ -32,7 +32,7 @@ PlayerRef.SetEssential(true)
 
 ; Wait a little and kock-back player to further help with that deadly hit
 
-Utility.Wait(2.0)
+Utility.Wait(3.0)
 
 PlayerRef.PushActorAway(PlayerRef, 0.0)
 
@@ -77,7 +77,7 @@ PlayerRef.SetEssential(false)
 
 PlayerRef.MoveTo(teleportMarker)
 
-PlayerRef.SetAngle(14.31, 0.0, 265.12)
+PlayerRef.SetAngle(14.31, 0.0, 170.0)
 ;END CODE
 EndFunction
 ;END FRAGMENT
