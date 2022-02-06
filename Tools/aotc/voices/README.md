@@ -161,6 +161,10 @@ trader_pda_fox:
 	-radio-
 trader_tutorial_anomalies_1:
 	-radio-
+	Just think about it man. Next time it could be you in this place. Haha.
+	Anyhow. Be extremely careful near anomalies. 
+	As soon as you hear the detector beeping, grab the bolts and toss them in front of you. 
+	Alrighty. Talk to you.
 trader_tutorial_binocular:
 	yeah, marked one. dont forget to use the binoculars. they will help you see enemies before they see you. 
 	and also avoid getting deep in shit. its got a built in target indicator. 

@@ -56,7 +56,6 @@ Event OnLoad()
     PlaceImpact()
     LightRef = self.PlaceAtMe(EffectLight)
     LightRef.SetPosition(self.GetPositionX(), self.GetPositionY(), self.GetPositionZ())
-    LightRef.AttachTo(self)
     
     ; Start polling for NPCs
     StartTimer(0.0, PollingTimerId)
