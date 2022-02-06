@@ -37,6 +37,7 @@ ObjectReference[] ClosestActorRefs = None
 int FireLoopRef = -1
 
 Event OnLoad()
+    _debug("[aotc][flame] OnLoad called")
     If !self.Is3DLoaded()
         Return
     EndIf
@@ -50,6 +51,7 @@ Event OnLoad()
 EndEvent
 
 Event OnUnload()
+    _debug("[aotc][flame] OnUnload called")
 	TryDelete(ConstantSparksRef)
 	TryDelete(FlameLightRef)
     TryDelete(SmokesRef)
@@ -57,6 +59,7 @@ Event OnUnload()
 EndEvent
 
 Event OnTimer(int timerId)
+    _debug("[aotc][flame] OnTimer called")
     If !self.Is3DLoaded()
         Return
     EndIf
@@ -75,6 +78,7 @@ EndEvent
 
 Function DoPolling()
     ObjectReference[] refs = self.FindAllReferencesWithKeyword(ActorNpcsKeyword, TargetRange)
+    _debug("[aotc][flame] FindAllReferencesWithKeyword length: " + refs.Length)
     ObjectReference[] actorRefs = new ObjectReference[0]
     int i = 0
     While i < refs.Length
@@ -88,10 +92,10 @@ Function DoPolling()
     bool hadActors = ClosestActorRefs.Length > 0
     bool hasActors = actorRefs.Length > 0
     If !hadActors && hasActors
-        _debug("[aotc][flame] Didnt have actors, but now we have, start fire!")
+        ;_debug("[aotc][flame] Didnt have actors, but now we have, start fire!")
         StartTimer(0.0, StartAttackTimerId)
     ElseIf hadActors && !hasActors
-        _debug("[aotc][flame] Had actors, but now we dont, stop fire!")
+        ;_debug("[aotc][flame] Had actors, but now we dont, stop fire!")
         StartTimer(0.0, StopAttackTimerId)
     EndIf
     ClosestActorRefs = actorRefs

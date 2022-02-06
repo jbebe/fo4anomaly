@@ -30,10 +30,20 @@ float RockingSpeed = 300.0 Const
 
 Actor ClosestNpc = None
 ObjectReference LightRef = None
+bool KillActionTimerRunning = False
+bool GravityActionTimerRunning = False
+bool PollingTimerRunning = False
 
 Function CleanUpSoft()
-    CancelTimer(KillActionTimerId)
-    CancelTimer(GravityActionTimerId)
+    _debug("[aotc][gravity] CleanUpSoft called")
+    If KillActionTimerRunning
+        KillActionTimerRunning = false
+        CancelTimer(KillActionTimerId)
+    EndIf
+    If GravityActionTimerRunning
+        GravityActionTimerRunning = false
+        CancelTimer(GravityActionTimerId)
+    EndIf
     If ClosestNpc != None
         ClosestNpc.StopTranslation()
         ClosestNpc = None
@@ -41,6 +51,7 @@ Function CleanUpSoft()
 EndFunction
 
 Function CleanUpCell()
+    _debug("[aotc][gravity] CleanUpCell called")
     If ClosestNpc != None && self != None
         UnRegisterForDistanceEvents(ClosestNpc, self)
     EndIf
@@ -49,6 +60,7 @@ Function CleanUpCell()
 EndFunction
 
 Event OnLoad()
+    _debug("[aotc][gravity] OnLoad called")
     If !self.Is3DLoaded()
         Return
     EndIf
@@ -58,14 +70,17 @@ Event OnLoad()
     LightRef.SetPosition(self.GetPositionX(), self.GetPositionY(), self.GetPositionZ())
     
     ; Start polling for NPCs
+    PollingTimerRunning = true
     StartTimer(0.0, PollingTimerId)
 EndEvent
 
 Event OnUnload()
+    _debug("[aotc][gravity] OnUnload called")
 	CleanUpCell()
 EndEvent
 
 Event OnTimer(int timerId)
+    _debug("[aotc][gravity] OnTimer called")
     If !self.Is3DLoaded()
         Return
     EndIf
@@ -83,18 +98,20 @@ Event OnTimer(int timerId)
     float killDistance = KillDistancePct * BehaviorDistance
     If timerId == KillActionTimerId
         If distance < killDistance
-            _debug("[aotc][behavior] Npc is too close, do kill " + ClosestNpc)
+            ;_debug("[aotc][behavior] Npc is too close, do kill " + ClosestNpc)
             DoKillBehavior()
         Else
+            KillActionTimerRunning = true
             StartTimer(KillTimerSec, KillActionTimerId)
         EndIf
     ElseIf timerId == GravityActionTimerId
         float gravityDistance = GravityDistancePct * BehaviorDistance
         bool inGravityPullRange = distance > killDistance && distance < gravityDistance
         If inGravityPullRange
-            _debug("[aotc][behavior] Npc is close, do gravity " + ClosestNpc)
+            ;_debug("[aotc][behavior] Npc is close, do gravity " + ClosestNpc)
             DoGravityBehavior()
         EndIf
+        GravityActionTimerRunning = true
         StartTimer(GravityTimerSec, GravityActionTimerId)
     EndIf
 EndEvent
@@ -115,6 +132,7 @@ EndFunction
 
 Actor Function FindClosestActor(Actor center, float radius)
     ObjectReference[] refs = center.FindAllReferencesWithKeyword(ActorNpcsKeyword, radius)
+    _debug("[aotc][gravity] FindClosestActor length: " + refs.Length)
     Actor closestRef = None
     float closestDistance = 999999.0
     int i = 0
@@ -133,9 +151,10 @@ Actor Function FindClosestActor(Actor center, float radius)
 EndFunction
 
 Function DoKillBehavior()
-    _debug("[aotc][behavior] Kill explosion")
+    ;_debug("[aotc][behavior] Kill explosion")
     PreAttackSound.Play(self)
-    ClosestNpc.PushActorAway(ClosestNpc, 0.0)
+    ; Looks nicer but gibs are not in place when explosion happens
+    ;ClosestNpc.PushActorAway(ClosestNpc, 0.0)
 
     If ClosestNpc == Game.GetPlayer()
         InputEnableLayer myLayer = InputEnableLayer.Create()
@@ -152,7 +171,7 @@ Function DoKillBehavior()
         CustomSplineTo(-rockingMagnitude, 0, -tangentMagnitude, i * 90 + 45)
         Utility.Wait(0.2)
         rockingMagnitude = rockingMagnitude / 1.2
-        ClosestNpc.PushActorAway(ClosestNpc, 0.0)
+        ;ClosestNpc.PushActorAway(ClosestNpc, 0.0)
         i += 1
     endwhile
     
@@ -162,7 +181,7 @@ Function DoKillBehavior()
     If ClosestNpc == None
         Return
     EndIf
-    ClosestNpc.PushActorAway(ClosestNpc, 0.0)
+    ;ClosestNpc.PushActorAway(ClosestNpc, 0.0)
     ClosestNpc.StopTranslation()
 
     ; Start explosion, disintegrate player, kill him

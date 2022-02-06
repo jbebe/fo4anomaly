@@ -1,5 +1,9 @@
 Scriptname aotc_actor_script_electric_movement extends Actor
 
+Function _debug(string dbgMessage)
+    Debug.Trace(dbgMessage)
+EndFunction
+
 bool Function IsAnimatable()
     Return self.Is3DLoaded() && self.GetParentCell() != None
 EndFunction
@@ -19,6 +23,7 @@ Vec3 OriginalPosition = None
 ObjectReference StrobeLightRef = None
 
 Event OnLoad()
+    _debug("[aotc][electric-movement] OnLoad called")
     If !IsAnimatable()
         Return
     EndIf
@@ -35,11 +40,13 @@ Event OnLoad()
 EndEvent
 
 Event OnUnload()
+    _debug("[aotc][electric-movement] OnUnload called")
     StrobeLightRef.Delete()
 	self.StopTranslation()
 EndEvent
 
 Event OnTimer(int _)
+    _debug("[aotc][electric-movement] OnTimer called")
     If !IsAnimatable()
         Return
     EndIf

@@ -1,7 +1,7 @@
 Scriptname aotc_actor_script_electric_behavior extends Actor
 
 Function _debug(string dbgMessage)
-    ;Debug.Trace(dbgMessage)
+    Debug.Trace(dbgMessage)
 EndFunction
 
 Static property XMarker Auto Const
@@ -17,6 +17,7 @@ float PollingIntervalSec = 1.0 Const
 Actor ClosestNpc = None
 
 Event OnLoad()
+    _debug("[aotc][electric-behavior] OnLoad called")
     If !self.Is3DLoaded()
         Return
     EndIf
@@ -26,6 +27,7 @@ Event OnLoad()
 EndEvent
 
 Event OnTimer(int timerId)
+    _debug("[aotc][electric-behavior] OnTimer called")
     If !self.Is3DLoaded()
         Return
     EndIf
@@ -42,10 +44,10 @@ EndEvent
 Function DoPolling()
     Actor npcRef = FindRandomActor(self, TargetDistance)
     If npcRef == None && ClosestNpc != None
-        _debug("[aotc][electric] " + npcRef + " is too far, set to None")
+        ;_debug("[aotc][electric] " + npcRef + " is too far, set to None")
         ClosestNpc = None
     ElseIf npcRef != None && ClosestNpc == None
-        _debug("[aotc][electric] " + npcRef + " is close, start firing!")
+        ;_debug("[aotc][electric] " + npcRef + " is close, start firing!")
         ClosestNpc = npcRef
         ; Start attack on a different thread
         StartTimer(0.0, AttackTimerId)
@@ -56,6 +58,7 @@ EndFunction
 
 Actor Function FindRandomActor(Actor center, float radius)
     ObjectReference[] refs = center.FindAllReferencesWithKeyword(ActorNpcsKeyword, radius)
+    _debug("[aotc][electric-behavior] FindRandomActor length" + refs.Length)
     int i = 0
     While i < refs.Length
         ObjectReference ref = refs[i]
@@ -75,6 +78,7 @@ Function LocalFireTrap()
 	;PlayAnimation(FireTrapAnim)
 	float currentTargetDistance = (TargetDistance * objSelf.GetScale())
 	While ClosestNpc != None && is3dLoaded()
+        _debug("[aotc][electric-behavior] LocalFireTrap loop")
 		;akTarget.moveToNode( game.FindRandomActorFromRef(objSelf, TargetDistance), "Torso")
 		; akTarget = game.FindRandomActorFromRef(akTargetRange, currentTargetDistance)
 		;if we have a target and this is not a dummy fire, half the time fire at the dummy
@@ -89,7 +93,7 @@ Function LocalFireTrap()
 		endif
 		Utility.wait(Utility.randomfloat(0.05, 0.2))
 	endWhile
-    _debug("[aotc][electric] ClosestNpc is None, so exit")
+    _debug("[aotc][electric-behavior] ClosestNpc is None, exit")
 	akTarget = None
 	myXmarker.delete()
 EndFunction

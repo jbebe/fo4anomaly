@@ -1,7 +1,7 @@
 Scriptname aotc_quest_script_anomaly_proximity extends Quest
 
 Function _debug(string dbgMessage)
-    ;Debug.Trace(dbgMessage)
+    Debug.Trace(dbgMessage)
 EndFunction
 
 Actor Property PlayerRef Auto Const
@@ -27,13 +27,16 @@ float DistanceFastBeep = 350.0 Const
 float PauseFastBeep = 0.232 Const
 
 ObjectReference ClosestAnomaly = None
+bool BeepTimerRunning = false
 
 Event OnQuestInit()
+    _debug("[aotc][proximity] OnQuestInit called")
+    BeepTimerRunning = true
     StartTimer(0.0, PollingTimerId)
 EndEvent
 
 Event OnTimer(int timerId)
-    ;_debug("[aotc][proximity] OnTimer happened")
+    _debug("[aotc][proximity] OnTimer called")
     If timerId == PollingTimerId
         DoPolling()
     ElseIf timerId == BeepTimerId

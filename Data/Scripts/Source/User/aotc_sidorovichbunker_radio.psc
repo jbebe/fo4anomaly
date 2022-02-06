@@ -1,5 +1,9 @@
 Scriptname aotc_sidorovichbunker_radio extends ObjectReference
 
+Function _debug(string dbgMessage)
+    Debug.Trace(dbgMessage)
+EndFunction
+
 ; This script aids to muffle the radio when the door starts to close 
 ; and vica versa. With an Activator radio, we couldn't get the handle of the sound source
 ; but this way (sound property) we can.
@@ -15,6 +19,7 @@ int DoorClosed = 3 Const
 int RadioTrackId = -1
 
 Event OnLoad()
+    _debug("[aotc][radio] OnLoad called")
     If !self.Is3DLoaded()
         Return
     EndIf
@@ -24,12 +29,14 @@ Event OnLoad()
 EndEvent
 
 Event OnUnLoad()
+    _debug("[aotc][radio] OnUnLoad called")
     If RadioTrackId != -1
         Sound.StopInstance(RadioTrackId)
     EndIf
 EndEvent
 
 Event ObjectReference.OnActivate(ObjectReference akSender, ObjectReference akActionRef)
+    _debug("[aotc][radio] ObjectReference.OnActivate called")
     If akSender != MufflingDoor
         Return
     EndIf
@@ -38,11 +45,13 @@ Event ObjectReference.OnActivate(ObjectReference akSender, ObjectReference akAct
 EndEvent
 
 Function SetRadioVolumeByDoorState()
-    If MufflingDoor.GetOpenState() < DoorClosed
+    ; TODO: fix muffling if player is inside but the door is closed
+    SetRadioVolume(FullVol)
+    ;/If MufflingDoor.GetOpenState() < DoorClosed
         SetRadioVolume(FullVol)
     ElseIf MufflingDoor.GetOpenState() >= DoorClosed
         SetRadioVolume(MuffledVol)
-    EndIf
+    EndIf/;
 EndFunction
 
 Function SetRadioVolume(float volume)

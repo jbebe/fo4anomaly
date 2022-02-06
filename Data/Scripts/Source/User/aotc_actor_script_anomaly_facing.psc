@@ -1,4 +1,8 @@
-Scriptname aotc_actor_script_anomaly_facing extends Actor Const
+Scriptname aotc_actor_script_anomaly_facing extends Actor
+
+Function _debug(string dbgMessage)
+    Debug.Trace(dbgMessage)
+EndFunction
 
 int ActionTimerId = 386128 Const
 float DistanceFar = 1000.0 Const
@@ -7,19 +11,28 @@ float DistanceMiddle = 500.0 Const
 float TimerSecMiddle = 1.0 Const
 float TimerSecClose = 0.1 Const
 
+bool ActionTimerRunning = false
+
 Event OnLoad()
+    _debug("[aotc][anomaly-facing] OnLoad called")
     If !self.Is3DLoaded()
         Return
     EndIf
     
+    ActionTimerRunning = true
     StartTimer(0.0, ActionTimerId)
 EndEvent
 
 Event OnUnload()
-	CancelTimer(ActionTimerId)
+    _debug("[aotc][anomaly-facing] OnUnload called")
+    If ActionTimerRunning
+        ActionTimerRunning = false
+	    CancelTimer(ActionTimerId)
+    EndIf
 EndEvent
 
 Event OnTimer(int timerId)
+    _debug("[aotc][anomaly-facing] OnTimer called")
     If !self.Is3DLoaded()
         Return
     EndIf
