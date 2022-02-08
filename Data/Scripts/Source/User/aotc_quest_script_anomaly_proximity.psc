@@ -13,6 +13,7 @@ ImageSpaceModifier Property GravityAnomalyImod Auto Const
 ImageSpaceModifier Property GravityAnomalyWeakImod Auto Const
 ImageSpaceModifier Property ZeroEffect Auto Const
 FormList Property AnomalyTypes Auto Const
+Quest Property TutorialQuest Auto Const
 
 int PollingTimerId = 386130 Const
 float PollingIntervalSec = 1.0 Const
@@ -59,6 +60,9 @@ Function DoPolling()
             ClosestAnomaly = anomalyRef
             StartTimer(0.0, BeepTimerId)
             ; GravityAnomalyWeakImod.ApplyCrossFade(1.0)
+            If !TutorialQuest.IsCompleted()
+                TutorialQuest.SetStage(20)
+            EndIf
         Else
             ;_debug("[aotc][proximity] Anomaly is far, cancel BeepTimer")
             ZeroEffect.ApplyCrossFade(1.0)

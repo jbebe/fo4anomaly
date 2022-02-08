@@ -19,6 +19,7 @@ Sound Property FireLoop Auto Const
 Hazard Property FireHazard Auto Const
 ImpactDataSet Property BlackPitImpactSet Auto Const
 MovableStatic Property Smokes Auto Const
+Keyword Property SafeActorKeyword Auto Const
 
 float TargetRange = 500.0 Const
 float PollingIntervalSec = 1.0 Const
@@ -76,6 +77,14 @@ Event OnTimer(int timerId)
     EndIf
 EndEvent
 
+bool Function IsKillableActor(ObjectReference akRef)
+    If !(akRef is Actor)
+        Return false
+    EndIf
+    Actor act = akRef as Actor
+    Return !act.HasKeyword(SafeActorKeyword) && !act.IsEssential() && !act.IsDead()
+EndFunction
+
 Function DoPolling()
     ObjectReference[] refs = self.FindAllReferencesWithKeyword(ActorNpcsKeyword, TargetRange)
     _debug("[aotc][flame] FindAllReferencesWithKeyword length: " + refs.Length)
@@ -83,7 +92,7 @@ Function DoPolling()
     int i = 0
     While i < refs.Length
         ObjectReference ref = refs[i]
-        If ref != self && ref is Actor &&  !(ref as Actor).IsEssential()
+        If IsKillableActor(ref)
             actorRefs.Add(ref)
         EndIf
         i += 1

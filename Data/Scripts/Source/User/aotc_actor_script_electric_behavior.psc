@@ -7,6 +7,7 @@ EndFunction
 Static property XMarker Auto Const
 SPELL Property TrapElectricArcSpell Auto Const
 Keyword Property ActorNpcsKeyword Auto Const
+Keyword Property SafeActorKeyword Auto Const
 
 String FireTrapAnim = "Trip" Const
 float TargetDistance = 500.0 Const
@@ -56,13 +57,21 @@ Function DoPolling()
     EndIf
 EndFunction
 
+bool Function IsKillableActor(ObjectReference akRef)
+    If !(akRef is Actor)
+        Return false
+    EndIf
+    Actor act = akRef as Actor
+    Return !act.HasKeyword(SafeActorKeyword) && !act.IsEssential() && !act.IsDead()
+EndFunction
+
 Actor Function FindRandomActor(Actor center, float radius)
     ObjectReference[] refs = center.FindAllReferencesWithKeyword(ActorNpcsKeyword, radius)
     _debug("[aotc][electric-behavior] FindRandomActor length" + refs.Length)
     int i = 0
     While i < refs.Length
         ObjectReference ref = refs[i]
-        If ref is Actor && ref != center && !(ref as Actor).IsEssential()
+        If IsKillableActor(ref)
             Return ref as Actor
         EndIf
         i += 1

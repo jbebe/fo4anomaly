@@ -16,6 +16,7 @@ Sound Property PreAttackSound Auto Const
 ImpactDataSet Property BlackPitImpactSet Auto Const
 Keyword Property ActorNpcsKeyword Auto Const
 Light Property EffectLight Auto Const
+Keyword Property SafeActorKeyword Auto Const
 
 int PollingTimerId = 386125 Const
 float PollingIntervalSec = 1.0 Const
@@ -130,6 +131,14 @@ Function DoPolling()
     EndIf
 EndFunction
 
+bool Function IsKillableActor(ObjectReference akRef)
+    If !(akRef is Actor)
+        Return false
+    EndIf
+    Actor act = akRef as Actor
+    Return !act.HasKeyword(SafeActorKeyword) && !act.IsEssential() && !act.IsDead()
+EndFunction
+
 Actor Function FindClosestActor(Actor center, float radius)
     ObjectReference[] refs = center.FindAllReferencesWithKeyword(ActorNpcsKeyword, radius)
     _debug("[aotc][gravity] FindClosestActor length: " + refs.Length)
@@ -138,7 +147,7 @@ Actor Function FindClosestActor(Actor center, float radius)
     int i = 0
     While i < refs.Length
         ObjectReference ref = refs[i]
-        If ref is Actor && ref != center && !(ref as Actor).IsEssential()
+        If IsKillableActor(ref)
             float dist = ref.GetDistance(center)
             If dist < closestDistance
                 closestRef = ref as Actor
