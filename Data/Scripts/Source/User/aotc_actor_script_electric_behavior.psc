@@ -62,7 +62,7 @@ Actor Function FindRandomActor(Actor center, float radius)
     int i = 0
     While i < refs.Length
         ObjectReference ref = refs[i]
-        If ref is Actor && ref != center
+        If ref is Actor && ref != center && !(ref as Actor).IsEssential()
             Return ref as Actor
         EndIf
         i += 1

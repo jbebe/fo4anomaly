@@ -83,7 +83,7 @@ Function DoPolling()
     int i = 0
     While i < refs.Length
         ObjectReference ref = refs[i]
-        If ref != self && ref is Actor
+        If ref != self && ref is Actor &&  !(ref as Actor).IsEssential()
             actorRefs.Add(ref)
         EndIf
         i += 1

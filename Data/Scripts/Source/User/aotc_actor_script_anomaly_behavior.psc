@@ -138,7 +138,7 @@ Actor Function FindClosestActor(Actor center, float radius)
     int i = 0
     While i < refs.Length
         ObjectReference ref = refs[i]
-        If ref is Actor && ref != center
+        If ref is Actor && ref != center && !(ref as Actor).IsEssential()
             float dist = ref.GetDistance(center)
             If dist < closestDistance
                 closestRef = ref as Actor
