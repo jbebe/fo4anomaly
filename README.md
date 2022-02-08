@@ -81,3 +81,7 @@ TODOs:
 * Clean-up scripts where we use PlaceAt but dont delete later
 * Add a flag for the anomalies so that NPCs try to avoid it instead of running into them
 * create vis and mesh precombines for all modified cells if neccessary
+* scatter the map with anomalies, create collections to make it easier to place batches
+* fine-tune the trigger areas
+* test move to safe place to avoid trees
+* make actors avoid the anomalies

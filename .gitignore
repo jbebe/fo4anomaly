@@ -10,8 +10,14 @@
 !Data/Meshes/aotc
 !Data/Meshes/aotc/**/*
 !Data/Meshes/PreCombined
+!Data/Meshes/PreCombined/**/*
 !Data/Meshes/PreCombined/AnomaliesOfTheCommonwealth.esp
 !Data/Meshes/PreCombined/AnomaliesOfTheCommonwealth.esp/**/*
+!Data/PS4
+!Data/PS4/Data
+!Data/PS4/Data/Meshes
+!Data/PS4/Data/Meshes/PreCombined
+!Data/PS4/Data/Meshes/PreCombined/**/*
 
 !Data/PS4
 !Data/PS4/Data
@@ -42,6 +48,8 @@
 !Data/Textures/aotc/**/*
 
 !Data/Vis
+!Data/Vis/Fallout4.esm
+!Data/Vis/Fallout4.esm/**/*
 !Data/Vis/AnomaliesOfTheCommonwealth.esp
 !Data/Vis/AnomaliesOfTheCommonwealth.esp/**/*
 
