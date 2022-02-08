@@ -73,15 +73,14 @@ The anomaly is surrounded by leaves or dust particles.
 
 TODOs:
 * [SKIPPED] Use SubDoor01Left instead of the white submarine door? --> NO, because the wall plug is not suitable :(
-* [DONE] SaugusSmokeMirageFX for gravity anomaly --> too slow, too big
+* [SKIPPED] SaugusSmokeMirageFX for gravity anomaly --> too slow, too big
 * [DONE] Sparks01SaugusFoundry --> for fire anomaly
-* [DONE] npc.PushActorAway(npc, 0) for enabling ragdoll (or just force ragdoll phy)
+* [SKIPPED] npc.PushActorAway(npc, 0) for enabling ragdoll (or just force ragdoll phy)
 * [DONE] add flames to the anomaly: FlameThrowerProjectileSprayVaporizer01.nif
 * [DONE] FXSmokeStackSteam02Half for flame
-* Clean-up scripts where we use PlaceAt but dont delete later
-* Add a flag for the anomalies so that NPCs try to avoid it instead of running into them
-* create vis and mesh precombines for all modified cells if neccessary
+* [DONE] Clean-up scripts where we use PlaceAt but dont delete later
+* [PENDING] Add a flag for the anomalies so that NPCs try to avoid it instead of running into them
+* [PENDING] create vis and mesh precombines for all modified cells if neccessary
 * scatter the map with anomalies, create collections to make it easier to place batches
-* fine-tune the trigger areas
-* test move to safe place to avoid trees
-* make actors avoid the anomalies
+* [DONE] fine-tune the trigger areas
+* [PENDING] test move to safe place to avoid trees

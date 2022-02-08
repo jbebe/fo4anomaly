@@ -1,7 +1,7 @@
 Scriptname aotc_actor_script_anomaly_facing extends Actor
 
 Function _debug(string dbgMessage)
-    Debug.Trace(dbgMessage)
+    ;Debug.Trace(dbgMessage)
 EndFunction
 
 int ActionTimerId = 386128 Const

@@ -1,7 +1,7 @@
 Scriptname aotc_sidorovichbunker_radio extends ObjectReference
 
 Function _debug(string dbgMessage)
-    Debug.Trace(dbgMessage)
+    ;Debug.Trace(dbgMessage)
 EndFunction
 
 ; This script aids to muffle the radio when the door starts to close 

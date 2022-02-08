@@ -1,7 +1,7 @@
 Scriptname aotc_actor_script_electric_movement extends Actor
 
 Function _debug(string dbgMessage)
-    Debug.Trace(dbgMessage)
+    ;Debug.Trace(dbgMessage)
 EndFunction
 
 bool Function IsAnimatable()

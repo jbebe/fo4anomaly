@@ -1,7 +1,7 @@
 Scriptname aotc_actor_script_electric_behavior extends Actor
 
 Function _debug(string dbgMessage)
-    Debug.Trace(dbgMessage)
+    ;Debug.Trace(dbgMessage)
 EndFunction
 
 Static property XMarker Auto Const
@@ -9,7 +9,7 @@ SPELL Property TrapElectricArcSpell Auto Const
 Keyword Property ActorNpcsKeyword Auto Const
 
 String FireTrapAnim = "Trip" Const
-float TargetDistance = 300.0 Const
+float TargetDistance = 500.0 Const
 int PollingTimerId = 386131 Const
 int AttackTimerId = 386132 Const
 float PollingIntervalSec = 1.0 Const

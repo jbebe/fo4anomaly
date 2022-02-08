@@ -1,7 +1,7 @@
 Scriptname aotc_actor_script_anomaly_behavior Extends Actor
 
 Function _debug(string dbgMessage)
-    Debug.Trace(dbgMessage)
+    ;Debug.Trace(dbgMessage)
 EndFunction
 
 Function TryDelete(ObjectReference refObj)

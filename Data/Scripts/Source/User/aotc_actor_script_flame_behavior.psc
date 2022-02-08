@@ -1,7 +1,7 @@
 Scriptname aotc_actor_script_flame_behavior extends Actor
 
 Function _debug(string dbgMessage)
-    Debug.Trace(dbgMessage)
+    ;Debug.Trace(dbgMessage)
 EndFunction
 
 Function TryDelete(ObjectReference refObj)
@@ -20,7 +20,7 @@ Hazard Property FireHazard Auto Const
 ImpactDataSet Property BlackPitImpactSet Auto Const
 MovableStatic Property Smokes Auto Const
 
-float TargetRange = 300.0 Const
+float TargetRange = 500.0 Const
 float PollingIntervalSec = 1.0 Const
 int PollingTimerId = 386134 Const
 int StartAttackTimerId = 386135 Const
