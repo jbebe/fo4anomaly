@@ -84,3 +84,41 @@ TODOs:
 * scatter the map with anomalies, create collections to make it easier to place batches
 * [DONE] fine-tune the trigger areas
 * [PENDING] test move to safe place to avoid trees
+
+
+
+
+
+Whew! After a whole month I managed to reach my goal with my first mod. It's still a bit rusty but it has all the features I wanted so now I can rest a bit while you guys fill the issues section with... issues. I did it for you all though so I hope you can get a little fun out of it. Especially those who like Stalker.
+
+Contents of the mod:
+3 types of anomalies scattered around the Commonwealth
+Pip-Boy has a built in proximity sensor
+Custom location near Wicked Shipping
+A simple fetch quest at said location to commemorate an old friend
+
+Anomaly behavior:
+They all have the same effect on your vision, making it harder to see the closer you are
+Gravity: Barely visible. Attracts creatures physically. Sucks you in if you're too close. (Yes, you're dead. Essential characters are not)
+Electric: Easier to see. Glows with a blue color and throws sparks at you.
+Flame: You can see some smoke above it and the ground is red from heat. If you're too close, flames rise up and you're cooked.
+
+Location & quest:
+Let this be our little secret. :)
+
+Q/A:
+
+It doesn't work with my save game
+I only tested the mod by creating new games over and over again, so I can only hope it might work with an already created game state.
+
+The game sometimes freezes with your mod enabled
+I'm aware of that but I don't know why. My scripts are safe, it must be Cell/Object related issue.
+
+The anomalies are buggy
+It's plausible. I tried my best but Creation Engine sometimes overrules what's working and what isn't.
+
+The new character doesn't have lipsync
+Sorry but I'm not familiar with 3d editors, especially not with both (Maya, Blender) of them simultaneously.
+
+It's not lore friendly at all!
+I think it is! I tried to strip everything from the voice lines that were inappropriate. And all the models are from Fallout, except for one.
