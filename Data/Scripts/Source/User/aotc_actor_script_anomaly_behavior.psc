@@ -195,7 +195,8 @@ Function DoKillBehavior()
 
     ; Start explosion, disintegrate player, kill him
     self.PlaceAtMe(AttackExplosion)
-    self.PlaceAtMe(Reaction)
+    ObjectReference reactionRef = self.PlaceAtMe(Reaction)
+    reactionRef.SetPosition(self.GetPositionX(), self.GetPositionY(), self.GetPositionZ() + 50)
     ClosestNpc.Dismember("Torso", true, true, true)
     ClosestNpc.Kill(self)
 EndFunction
