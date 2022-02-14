@@ -38,6 +38,7 @@
 !Data/Scripts/Source/User/Fragments/Quests/*.psc
 
 !Data/Sound
+!Data/Sound/aotc
 !Data/Sound/aotc/**/*
 !Data/Sound/Voice
 !Data/Sound/Voice/AnomaliesOfTheCommonwealth.esp
